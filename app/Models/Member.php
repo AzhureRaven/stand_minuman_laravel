@@ -14,4 +14,8 @@ class Member extends Model
     protected $primaryKey = "id_member";
     public $incrementing = true;
     public $timestamps = true;
+
+    public function HTrans(){
+        return $this->hasMany(HTrans::class,"id_member","id_member");
+    }
 }

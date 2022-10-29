@@ -14,4 +14,8 @@ class Category_Minuman extends Model
     protected $primaryKey = "id_";
     public $incrementing = true;
     public $timestamps = true;
+
+    public function Minuman(){
+        return $this->hasMany(Minuman::class,"id_category_minuman","id_category_minuman");
+    }
 }

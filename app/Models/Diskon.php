@@ -14,4 +14,8 @@ class Diskon extends Model
     protected $primaryKey = "id_diskon";
     public $incrementing = true;
     public $timestamps = true;
+
+    public function HTrans(){
+        return $this->hasMany(HTrans::class,"id_diskon","id_diskon");
+    }
 }

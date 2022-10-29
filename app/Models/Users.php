@@ -15,4 +15,8 @@ class Users extends Authenticatable
     protected $primaryKey = "id_users";
     public $incrementing = true;
     public $timestamps = true;
+
+    public function HTrans(){
+        return $this->hasMany(HTrans::class,"id_users","id_users");
+    }
 }

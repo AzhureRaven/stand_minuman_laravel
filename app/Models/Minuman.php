@@ -14,4 +14,13 @@ class Minuman extends Model
     protected $primaryKey = "id_minuman";
     public $incrementing = true;
     public $timestamps = true;
+
+    public function Category_Minuman(){
+        return $this->hasOne(Category_Minuman::class,"id_category_minuman","id_category_minuman");
+    }
+
+    public function DTrans(){
+        return $this->hasMany(DTrans::class,"id_minuman","id_minuman");
+    }
+
 }

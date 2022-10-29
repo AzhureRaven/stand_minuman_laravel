@@ -14,4 +14,8 @@ class Topping extends Model
     protected $primaryKey = "id_topping";
     public $incrementing = true;
     public $timestamps = true;
+
+    public function DTrans(){
+        return $this->hasMany(DTrans::class,"id_topping","id_topping");
+    }
 }
