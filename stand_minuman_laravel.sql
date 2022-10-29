@@ -110,7 +110,11 @@ CREATE TABLE `htrans` (
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`no_nota`),
   KEY `id_users` (`id_users`),
-  CONSTRAINT `htrans_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `users` (`id_users`)
+  KEY `id_diskon` (`id_diskon`),
+  KEY `id_member` (`id_member`),
+  CONSTRAINT `htrans_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `users` (`id_users`),
+  CONSTRAINT `htrans_ibfk_2` FOREIGN KEY (`id_diskon`) REFERENCES `diskon` (`id_diskon`),
+  CONSTRAINT `htrans_ibfk_3` FOREIGN KEY (`id_member`) REFERENCES `member` (`id_member`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `htrans` */
