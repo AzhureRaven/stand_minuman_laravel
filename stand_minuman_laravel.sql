@@ -147,7 +147,6 @@ CREATE TABLE `minuman` (
   `id_minuman` double NOT NULL AUTO_INCREMENT,
   `nama` varchar(100) NOT NULL,
   `gambar` varchar(50) DEFAULT NULL,
-  `stok` double NOT NULL,
   `harga` double NOT NULL,
   `id_category_minuman` double NOT NULL DEFAULT 1,
   `created_at` datetime DEFAULT NULL,
@@ -160,11 +159,11 @@ CREATE TABLE `minuman` (
 
 /*Data for the table `minuman` */
 
-insert  into `minuman`(`id_minuman`,`nama`,`gambar`,`stok`,`harga`,`id_category_minuman`,`created_at`,`updated_at`,`deleted_at`) values 
-(1,'Es Teh Manis',NULL,194,10000,2,NULL,NULL,NULL),
-(2,'Jus Jeruk',NULL,4957,12000,3,NULL,NULL,NULL),
-(3,'Milkshake',NULL,27,15000,4,NULL,NULL,NULL),
-(4,'Chocolate Milkshake',NULL,98,16000,4,NULL,NULL,NULL);
+insert  into `minuman`(`id_minuman`,`nama`,`gambar`,`harga`,`id_category_minuman`,`created_at`,`updated_at`,`deleted_at`) values 
+(1,'Es Teh Manis',NULL,10000,2,NULL,NULL,NULL),
+(2,'Jus Jeruk',NULL,12000,3,NULL,NULL,NULL),
+(3,'Milkshake',NULL,15000,4,NULL,NULL,NULL),
+(4,'Chocolate Milkshake',NULL,16000,4,NULL,NULL,NULL);
 
 /*Table structure for table `topping` */
 
