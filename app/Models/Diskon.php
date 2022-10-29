@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Diskon extends Model
 {
     use HasFactory;
+
+    protected $connection = "mysql";
+    protected $table = "diskon";
+    protected $primaryKey = "id_diskon";
+    public $incrementing = true;
+    public $timestamps = true;
 }

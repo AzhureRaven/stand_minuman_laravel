@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Topping extends Model
 {
     use HasFactory;
+
+    protected $connection = "mysql";
+    protected $table = "topping";
+    protected $primaryKey = "id_topping";
+    public $incrementing = true;
+    public $timestamps = true;
 }
