@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\KasirController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+//routing login
+Route::get('/', [LoginController::class, 'login']);
+Route::post('/do-login', [LoginController::class, 'doLogin']);
+Route::get('/logout', [LoginController::class, 'logout']);
+
+//routing kasir
+Route::prefix('/kasir')->group(function () {
+    Route::get('/transaksi', [KasirController::class,'transaksi']);
+    Route::get('/member', [KasirController::class,'member']);
 });
+
+

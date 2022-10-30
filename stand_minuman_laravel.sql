@@ -201,6 +201,7 @@ CREATE TABLE `users` (
   `username` varchar(30) NOT NULL,
   `password` varchar(255) NOT NULL,
   `nama` varchar(100) NOT NULL,
+  `privilege` int(1) NOT NULL DEFAULT 1,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
@@ -210,11 +211,11 @@ CREATE TABLE `users` (
 
 /*Data for the table `users` */
 
-insert  into `users`(`id_users`,`username`,`password`,`nama`,`created_at`,`updated_at`,`deleted_at`) values 
-(1,'admin','21232F297A57A5A743894A0E4A801FC3','admin',NULL,NULL,NULL),
-(2,'Azhure','8875A6E498FF20B1553FF264E9B07A53','Azhure Raven',NULL,NULL,NULL),
-(3,'Kevin','C1F80EDDEA77F14650A2062DDA3EB15C','Kevin Jonathan',NULL,NULL,NULL),
-(4,'Rocky','DE03C6DE427184AFE57262DE14D084D7','Rocky Chandra',NULL,NULL,NULL);
+insert  into `users`(`id_users`,`username`,`password`,`nama`,`privilege`,`created_at`,`updated_at`,`deleted_at`) values 
+(1,'admin','$2y$10$d.4J.XS32dxBLpkkssT.jO.U5ytS7QmkBNZ7vHIRiEPgBz/MuBIOq','admin',2,NULL,NULL,NULL),
+(2,'Azhure','$2y$10$d.4J.XS32dxBLpkkssT.jO.U5ytS7QmkBNZ7vHIRiEPgBz/MuBIOq','Azhure Raven',1,NULL,NULL,NULL),
+(3,'Kevin','$2y$10$d.4J.XS32dxBLpkkssT.jO.U5ytS7QmkBNZ7vHIRiEPgBz/MuBIOq','Kevin Jonathan',1,NULL,NULL,NULL),
+(4,'Rocky','$2y$10$d.4J.XS32dxBLpkkssT.jO.U5ytS7QmkBNZ7vHIRiEPgBz/MuBIOq','Rocky Chandra',1,NULL,NULL,NULL);
 
 /* Function  structure for function  `genNoNota` */
 
