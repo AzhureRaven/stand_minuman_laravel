@@ -12,11 +12,7 @@
 <body>
     @include('layout.navbar-kasir')
     <div class="container py-3 mt-5 mb-5">
-        <div class="row">
-            <div class="col">
-                @yield('main')
-            </div>
-        </div>
+        @yield('main')
     </div>
     @include('layout.footer')
 

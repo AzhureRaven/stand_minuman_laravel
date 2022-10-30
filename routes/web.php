@@ -24,6 +24,7 @@ Route::get('/logout', [LoginController::class, 'logout']);
 Route::prefix('/kasir')->group(function () {
     Route::get('/transaksi', [KasirController::class,'transaksi']);
     Route::get('/member', [KasirController::class,'member']);
+    Route::post('/add-member', [KasirController::class,'addMember']);
 });
 
 
