@@ -23,6 +23,11 @@ Route::get('/logout', [LoginController::class, 'logout']);
 //routing kasir
 Route::prefix('/kasir')->group(function () {
     Route::get('/transaksi', [KasirController::class,'transaksi']);
+    Route::get('/refresh-transaksi', [KasirController::class,'refreshTransaksi']);
+    Route::post('/add-item', [KasirController::class,'addItem']);
+    Route::get('/get-item', [KasirController::class,'getItem']);
+    Route::post('/remove-item', [KasirController::class,'removeItem']);
+
     Route::get('/member', [KasirController::class,'member']);
     Route::post('/add-member', [KasirController::class,'addMember']);
 });
