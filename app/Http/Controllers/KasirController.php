@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Member;
+use App\Models\Minuman;
+use App\Models\Topping;
 use Illuminate\Http\Request;
 
 class KasirController extends Controller
@@ -10,8 +12,14 @@ class KasirController extends Controller
     public function transaksi(Request $request)
     {
         //ke halaman transaksi
-        return view('kasir.transaksi');
+        $minuman = Minuman::get();
+        $topping = Topping::get();
+
+        return view('kasir.transaksi',compact("minuman","topping"));
     }
+
+
+
 
     public function member(Request $request)
     {

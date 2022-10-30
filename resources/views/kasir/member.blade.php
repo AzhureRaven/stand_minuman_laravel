@@ -1,5 +1,9 @@
 @extends('layout.main-kasir')
 
+@section('css')
+
+@endsection
+
 @section('main')
     <div class="row">
         <div class="col">
