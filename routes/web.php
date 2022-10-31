@@ -28,7 +28,9 @@ Route::prefix('/kasir')->group(function () {
         Route::post('/change-diskon', [KasirController::class,'changeDiskon']);
         Route::post('/change-member', [KasirController::class,'changeMember']);
         Route::get('/get-item', [KasirController::class,'getItem']);
+        Route::get('/clear-item', [KasirController::class,'clearItem']);
         Route::post('/remove-item', [KasirController::class,'removeItem']);
+        Route::post('/do-transaksi', [KasirController::class,'doTransaksi']);
     });
     Route::prefix('/member')->group(function () {
         Route::get('/member', [KasirController::class,'member']);

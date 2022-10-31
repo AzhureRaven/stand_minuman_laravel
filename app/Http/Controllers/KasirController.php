@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Diskon;
+use App\Models\DTrans;
+use App\Models\HTrans;
 use App\Models\Member;
 use App\Models\Minuman;
 use App\Models\Topping;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class KasirController extends Controller
@@ -20,7 +24,7 @@ class KasirController extends Controller
         $diskon = Diskon::get();
 
         //cek jika session transaksi belum disiapkan
-        if(!Session::has("transaksi")){
+        if (!Session::has("transaksi")) {
             $transaksi = [];
             $transaksi["dtrans"] = [];
             $transaksi["id_diskon"] = -1;
@@ -28,14 +32,57 @@ class KasirController extends Controller
             $transaksi["subtotal"] = 0;
             $transaksi["potongan"] = 0;
             $transaksi["total"] = 0;
-            Session::put("transaksi",$transaksi);
+            Session::put("transaksi", $transaksi);
         }
 
         // dump($minuman);
         // dump($topping);
         // dd(Session::get("transaksi.dtrans"));
 
-        return view('kasir.transaksi',compact("minuman","topping","member","diskon"));
+        return view('kasir.transaksi', compact("minuman", "topping", "member", "diskon"));
+    }
+
+    public function doTransaksi(Request $request)
+    {
+        $transaksi = Session::get("transaksi");
+        if(count($transaksi['dtrans']) > 0){
+            DB::beginTransaction();
+            try {
+                $no_nota = DB::selectOne("select genNoNota() as nota");
+                $no_nota = $no_nota->nota;
+
+                $htrans = new HTrans();
+                $htrans->no_nota = $no_nota;
+                $htrans->id_users = Auth::user()->id_users;
+                if($transaksi['id_diskon'] != -1) $htrans->id_diskon = $transaksi['id_diskon'];
+                if($transaksi['id_member'] != -1) $htrans->id_member = $transaksi['id_member'];
+                $htrans->subtotal = $transaksi['subtotal'];
+                $htrans->potongan = $transaksi['potongan'];
+                $htrans->total = $transaksi['total'];
+                $htrans->save();
+
+                foreach ($transaksi['dtrans'] as $key => $dt) {
+                    $dtrans = new DTrans();
+                    $dtrans->no_nota = $no_nota;
+                    $dtrans->id_minuman = $dt['id_minuman'];
+                    $dtrans->id_topping = $dt['id_topping'];
+                    $dtrans->jumlah = $dt['jumlah'];
+                    $dtrans->subtotal_minuman = $dt['subtotal_minuman'];
+                    $dtrans->subtotal_topping = $dt['subtotal_topping'];
+                    $dtrans->subtotal = $dt['subtotal'];
+                    $dtrans->save();
+                }
+                DB::commit();
+                Session::forget('transaksi');
+                return redirect('kasir/transaksi')->with('success','Transaksi Berhasil!');
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return redirect('kasir/transaksi')->with('error','Transaksi Gagal!');
+            }
+        }
+        else{
+            return redirect('kasir/transaksi')->with('error','Tidak ada item!');
+        }
     }
 
     public function addItem(Request $request)
@@ -53,7 +100,7 @@ class KasirController extends Controller
             "jumlah.numeric" => ":attribute harus angka",
             "jumlah.gt" => ":attribute harus lebih dari 0",
         ];
-        $request->validate($rules,$message);
+        $request->validate($rules, $message);
 
         $minuman = Minuman::find($request->id_minuman);
         $topping = Topping::find($request->id_topping);
@@ -61,21 +108,22 @@ class KasirController extends Controller
         $dtrans = [];
         $dtrans["id_minuman"] = $minuman->id_minuman;
         $dtrans["nama_minuman"] = $minuman->nama;
-        $dtrans["subtotal_minuman"] = $minuman->harga*$request->jumlah;
+        $dtrans["subtotal_minuman"] = $minuman->harga * $request->jumlah;
         $dtrans["id_topping"] = $topping->id_topping;
         $dtrans["nama_topping"] = $topping->nama;
-        $dtrans["subtotal_topping"] = $topping->harga*$request->jumlah;
+        $dtrans["subtotal_topping"] = $topping->harga * $request->jumlah;
         $dtrans["jumlah"] = $request->jumlah;
         $dtrans["subtotal"] = $dtrans["subtotal_minuman"] + $dtrans["subtotal_topping"];
 
         $transaksi = Session::get("transaksi");
         $transaksi["dtrans"][] = $dtrans;
-        Session::put("transaksi",$transaksi);
+        Session::put("transaksi", $transaksi);
 
         return response()->json(json_encode($transaksi));
     }
 
-    public function getItem(Request $request){
+    public function getItem(Request $request)
+    {
         $transaksi = Session::get("transaksi");
         $subtotal = 0;
         foreach ($transaksi['dtrans'] as $key => $dt) {
@@ -83,39 +131,55 @@ class KasirController extends Controller
         }
         $transaksi["subtotal"] = $subtotal;
         $diskon = 0;
-        if($transaksi["id_member"] > -1){
+        if ($transaksi["id_member"] > -1) {
             $diskon += 20;
         }
-        if($transaksi["id_diskon"] > -1){
+        if ($transaksi["id_diskon"] > -1) {
             $d = Diskon::find($transaksi["id_diskon"]);
             $diskon += $d->potongan;
         }
-        $transaksi["potongan"] = $transaksi["subtotal"]*$diskon/100;
+        $transaksi["potongan"] = $transaksi["subtotal"] * $diskon / 100;
         $transaksi["total"] = $transaksi["subtotal"] - $transaksi["potongan"];
-        Session::put("transaksi",$transaksi);
+        Session::put("transaksi", $transaksi);
         return response()->json(json_encode($transaksi));
     }
 
-    public function removeItem(Request $request){
+    public function clearItem(Request $request)
+    {
+        $transaksi = [];
+        $transaksi["dtrans"] = [];
+        $transaksi["id_diskon"] = -1;
+        $transaksi["id_member"] = -1;
+        $transaksi["subtotal"] = 0;
+        $transaksi["potongan"] = 0;
+        $transaksi["total"] = 0;
+        Session::put("transaksi", $transaksi);
+        return response()->json(json_encode($transaksi));
+    }
+
+    public function removeItem(Request $request)
+    {
         $transaksi = Session::get("transaksi");
         $id = (int)$request->id;
         unset($transaksi["dtrans"][$id]);
         $transaksi["dtrans"] = array_values($transaksi['dtrans']);
-        Session::put("transaksi",$transaksi);
+        Session::put("transaksi", $transaksi);
         return response()->json(json_encode($transaksi));
     }
 
-    public function changeDiskon(Request $request){
+    public function changeDiskon(Request $request)
+    {
         $transaksi = Session::get("transaksi");
         $transaksi["id_diskon"] = (int)$request->id;
-        Session::put("transaksi",$transaksi);
+        Session::put("transaksi", $transaksi);
         return response()->json(json_encode($transaksi));
     }
 
-    public function changeMember(Request $request){
+    public function changeMember(Request $request)
+    {
         $transaksi = Session::get("transaksi");
         $transaksi["id_member"] = (int)$request->id;
-        Session::put("transaksi",$transaksi);
+        Session::put("transaksi", $transaksi);
         return response()->json(json_encode($transaksi));
     }
 
@@ -141,18 +205,16 @@ class KasirController extends Controller
             "nama.required" => ":attribute harus diisi",
             "nama.max" => ":attribute maks 50 huruf",
         ];
-        $request->validate($rules,$message);
+        $request->validate($rules, $message);
 
         $member = new Member();
         $member->nama = $request->nama;
         $member->email = $request->email;
         $result = $member->save();
-        if($result){
-            return redirect("kasir/member")->with("success","Member berhasil di register!");
+        if ($result) {
+            return redirect("kasir/member")->with("success", "Member berhasil di register!");
+        } else {
+            return redirect("kasir/member")->with("error", "Member tidak berhasil di register!");
         }
-        else{
-            return redirect("kasir/member")->with("error","Member tidak berhasil di register!");
-        }
-
     }
 }

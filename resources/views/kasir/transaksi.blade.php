@@ -37,12 +37,12 @@
                     <tbody>
                         @forelse ($minuman as $key => $m)
                             <tr class="align-middle">
-                                <th scope="row">{{ $m->id_minuman }}</th>
-                                <th scope="row">{{ $m->nama }}</th>
-                                <th scope="row"><img src='{{ asset("topping/$m->gambar") }}' alt="Tidak ada gambar">
-                                </th>
-                                <th scope="row">{{ $m->Category_Minuman->nama }}</th>
-                                <th scope="row" style="text-align: right">{{ $m->harga }}</th>
+                                <td scope="row">{{ $m->id_minuman }}</td>
+                                <td scope="row">{{ $m->nama }}</td>
+                                <td scope="row"><img src='{{ asset("topping/$m->gambar") }}' alt="Tidak ada gambar">
+                                </td>
+                                <td scope="row">{{ $m->Category_Minuman->nama }}</td>
+                                <td scope="row" style="text-align: right">{{ $m->harga }}</td>
                                 <td style="text-align: center"><input type="radio" class="form-check-input"
                                         name="id_minuman" id="id_minuman" value="{{ $m->id_minuman }}"></td>
                             </tr>
@@ -71,11 +71,11 @@
                     <tbody>
                         @forelse ($topping as $key => $t)
                             <tr class="align-middle">
-                                <th scope="row">{{ $t->id_topping }}</th>
-                                <th scope="row">{{ $t->nama }}</th>
-                                <th scope="row"><img src='{{ asset("topping/$t->gambar") }}' alt="Tidak ada gambar">
-                                </th>
-                                <th scope="row" class="ml-auto" style="text-align: right">{{ $t->harga }}</th>
+                                <td scope="row">{{ $t->id_topping }}</td>
+                                <td scope="row">{{ $t->nama }}</td>
+                                <td scope="row"><img src='{{ asset("topping/$t->gambar") }}' alt="Tidak ada gambar">
+                                </td>
+                                <td scope="row" class="ml-auto" style="text-align: right">{{ $t->harga }}</td>
                                 <td style="text-align: center"><input type="radio" class="form-check-input"
                                         name="id_topping" id="id_topping" value="{{ $t->id_topping }}"></td>
                             </tr>
@@ -103,6 +103,7 @@
                 <table class="table table-striped table-dark">
                     <thead>
                         <tr>
+                            <th scope="col">No</th>
                             <th scope="col">Nama Minuman</th>
                             <th scope="col">Nama Topping</th>
                             <th scope="col">Jumlah</th>
@@ -115,6 +116,7 @@
                     <tbody id="dtrans">
                         @forelse (Session::get("transaksi.dtrans") as $key => $dtrans)
                             <tr class="align-middle">
+                                <td scope="col">{{ ($key+1) }}</td>
                                 <td scope="col">{{ $dtrans['nama_minuman'] }}</td>
                                 <td scope="col">{{ $dtrans['nama_topping'] }}</td>
                                 <td scope="col">{{ $dtrans['jumlah'] }}</td>
@@ -126,17 +128,17 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7">Tidak ada data</td>
+                                <td colspan="8">Tidak ada data</td>
                             </tr>
                         @endforelse
                     </tbody>
                         <tr>
-                            <td colspan="5" style="text-align: right">Subtotal:</td>
+                            <td colspan="6" style="text-align: right">Subtotal:</td>
                             <td style="text-align: right" id="subtotal">Rp {{ Session::get('transaksi.subtotal') }}</td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td colspan="5" style="text-align: right">Diskon:</td>
+                            <td colspan="6" style="text-align: right">Diskon:</td>
                             <td style="text-align: right">
                                 <select class="form-select" name="diskon" id="diskon">
                                     <option value="-1" {{ Session::get('transaksi.id_diskon') == -1 ? 'selected' : '' }}>
@@ -150,7 +152,7 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td colspan="5" style="text-align:right">Member:</td>
+                            <td colspan="6" style="text-align:right">Member:</td>
                             <td style="text-align: right">
                                 <select class="form-select" name="member" id="member">
                                     <option value="-1" {{ Session::get('transaksi.id_member') == -1 ? 'selected' : '' }}>
@@ -164,14 +166,26 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td colspan="5" style="text-align:right">Potongan:</td>
+                            <td colspan="6" style="text-align:right">Potongan:</td>
                             <td style="text-align: right" id="potongan">Rp {{ Session::get('transaksi.potongan') }}</td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td colspan="5" style="text-align: right">Total:</td>
+                            <td colspan="6" style="text-align: right">Total:</td>
                             <td style="text-align: right" id="total">Rp {{ Session::get('transaksi.total') }}</td>
                             <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" style="text-align: right"></td>
+                            <td style="text-align: right">
+                                <button type="button" id="clear"  class="btn btn-danger">Hapus Semua</button>
+                            </td>
+                            <td>
+                                <form action="{{ url('kasir/transaksi/do-transaksi') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-primary">Transaksi</button>
+                                </form>
+                            </td>
                         </tr>
                 </table>
             </div>
@@ -243,6 +257,7 @@
                         let data = ""
                         for (let i = 0; i < dtrans.length; i++) {
                             data += "<tr class='align-middle'>";
+                            data += "<td scope='col'>" + (i+1) + "</td>"
                             data += "<td scope='col'>" + dtrans[i]["nama_minuman"] + "</td>"
                             data += "<td scope='col'>" + dtrans[i]["nama_topping"] + "</td>"
                             data += "<td scope='col'>" + dtrans[i]["jumlah"] + "</td>"
@@ -271,6 +286,17 @@
                     }
                 });
             }
+
+            $('#clear').click(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: "{{ url('/kasir/transaksi/clear-item') }}",
+                    method: 'get',
+                    success: function(result) {
+                        refreshTransaksi()
+                    }
+                });
+            });
 
             $('#diskon').on('change', function(e) {
                 e.preventDefault();

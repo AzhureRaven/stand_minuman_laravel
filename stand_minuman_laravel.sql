@@ -49,9 +49,12 @@ CREATE TABLE `diskon` (
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id_diskon`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `diskon` */
+
+insert  into `diskon`(`id_diskon`,`nama`,`potongan`,`created_at`,`updated_at`,`deleted_at`) values 
+(1,'Diskon Kilat',20,'2022-10-30 08:32:27','2022-10-30 08:32:27',NULL);
 
 /*Table structure for table `dtrans` */
 
@@ -90,7 +93,10 @@ insert  into `dtrans`(`no_nota`,`id_minuman`,`id_topping`,`jumlah`,`subtotal_min
 ('H2205240001',4,1,1,16000,0,16000,NULL,NULL,NULL),
 ('H2205250001',1,1,2,20000,0,20000,NULL,NULL,NULL),
 ('H2205250001',2,4,1,12000,2500,14500,NULL,NULL,NULL),
-('H2205250001',4,3,1,16000,3000,19000,NULL,NULL,NULL);
+('H2205250001',4,3,1,16000,3000,19000,NULL,NULL,NULL),
+('H2210310001',1,2,1,10000,2000,12000,'2022-10-31 13:46:37','2022-10-31 13:46:37',NULL),
+('H2210310001',4,3,2,32000,6000,38000,'2022-10-31 13:46:37','2022-10-31 13:46:37',NULL),
+('H2210310002',1,2,1,10000,2000,12000,'2022-10-31 13:49:00','2022-10-31 13:49:00',NULL);
 
 /*Table structure for table `htrans` */
 
@@ -120,12 +126,14 @@ CREATE TABLE `htrans` (
 /*Data for the table `htrans` */
 
 insert  into `htrans`(`no_nota`,`id_users`,`id_diskon`,`id_member`,`subtotal`,`potongan`,`total`,`tanggal`,`created_at`,`updated_at`,`deleted_at`) values 
-('H2205120001',2,NULL,NULL,0,0,20000,'2022-05-12 14:01:58',NULL,NULL,NULL),
-('H2205120002',3,NULL,NULL,0,0,14000,'2022-05-12 14:04:45',NULL,NULL,NULL),
-('H2205120003',2,NULL,NULL,0,0,56000,'2022-05-12 14:07:27',NULL,NULL,NULL),
-('H2205230001',2,NULL,NULL,0,0,48000,'2022-05-23 15:14:19',NULL,NULL,NULL),
-('H2205240001',2,NULL,NULL,0,0,52000,'2022-05-24 11:35:53',NULL,NULL,NULL),
-('H2205250001',3,NULL,NULL,0,0,53500,'2022-05-25 21:05:50',NULL,NULL,NULL);
+('H2205120001',2,NULL,NULL,20000,0,20000,'2022-05-12 14:01:58',NULL,NULL,NULL),
+('H2205120002',3,NULL,NULL,14000,0,14000,'2022-05-12 14:04:45',NULL,NULL,NULL),
+('H2205120003',2,NULL,NULL,56000,0,56000,'2022-05-12 14:07:27',NULL,NULL,NULL),
+('H2205230001',2,NULL,NULL,48000,0,48000,'2022-05-23 15:14:19',NULL,NULL,NULL),
+('H2205240001',2,NULL,NULL,52000,0,52000,'2022-05-24 11:35:53',NULL,NULL,NULL),
+('H2205250001',3,NULL,NULL,53500,0,53500,'2022-05-25 21:05:50',NULL,NULL,NULL),
+('H2210310001',2,1,1,50000,20000,30000,'2022-10-31 20:46:37','2022-10-31 13:46:37','2022-10-31 13:46:37',NULL),
+('H2210310002',2,NULL,NULL,12000,0,12000,'2022-10-31 20:49:00','2022-10-31 13:49:00','2022-10-31 13:49:00',NULL);
 
 /*Table structure for table `member` */
 
@@ -139,9 +147,12 @@ CREATE TABLE `member` (
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id_member`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `member` */
+
+insert  into `member`(`id_member`,`nama`,`email`,`created_at`,`updated_at`,`deleted_at`) values 
+(1,'Arthur Fendy','abrahamarthurfendy@gmail.com','2022-10-30 08:32:27','2022-10-30 08:32:27',NULL);
 
 /*Table structure for table `minuman` */
 
