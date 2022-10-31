@@ -24,7 +24,7 @@
     </div>
     <div class="row">
         <div class="col">
-            <form action="{{ url('kasir/add-member') }}" method="POST">
+            <form action="{{ url('kasir/member/add-member') }}" method="POST">
                 @csrf
                 <div class="form-group">
                     <label>Nama Member</label>

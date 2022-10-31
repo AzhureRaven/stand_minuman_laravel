@@ -22,16 +22,20 @@ Route::get('/logout', [LoginController::class, 'logout']);
 
 //routing kasir
 Route::prefix('/kasir')->group(function () {
-    Route::get('/transaksi', [KasirController::class,'transaksi']);
-    Route::get('/refresh-transaksi', [KasirController::class,'refreshTransaksi']);
-    Route::post('/add-item', [KasirController::class,'addItem']);
-    Route::post('/change-diskon', [KasirController::class,'changeDiskon']);
-    Route::post('/change-member', [KasirController::class,'changeMember']);
-    Route::get('/get-item', [KasirController::class,'getItem']);
-    Route::post('/remove-item', [KasirController::class,'removeItem']);
+    Route::prefix('/transaksi')->group(function () {
+        Route::get('/', [KasirController::class,'transaksi']);
+        Route::post('/add-item', [KasirController::class,'addItem']);
+        Route::post('/change-diskon', [KasirController::class,'changeDiskon']);
+        Route::post('/change-member', [KasirController::class,'changeMember']);
+        Route::get('/get-item', [KasirController::class,'getItem']);
+        Route::post('/remove-item', [KasirController::class,'removeItem']);
+    });
+    Route::prefix('/member')->group(function () {
+        Route::get('/member', [KasirController::class,'member']);
+        Route::post('/add-member', [KasirController::class,'addMember']);
+    });
 
-    Route::get('/member', [KasirController::class,'member']);
-    Route::post('/add-member', [KasirController::class,'addMember']);
+
 });
 
 
