@@ -34,6 +34,9 @@ class LoginController extends Controller
         if(Auth::guard('web')->check()){
             Auth::guard('web')->logout();
         }
+        if(Session::has('transaksi')){
+            Session::forget('transaksi');
+        }
         return redirect('/');
     }
 }

@@ -25,6 +25,8 @@ Route::prefix('/kasir')->group(function () {
     Route::get('/transaksi', [KasirController::class,'transaksi']);
     Route::get('/refresh-transaksi', [KasirController::class,'refreshTransaksi']);
     Route::post('/add-item', [KasirController::class,'addItem']);
+    Route::post('/change-diskon', [KasirController::class,'changeDiskon']);
+    Route::post('/change-member', [KasirController::class,'changeMember']);
     Route::get('/get-item', [KasirController::class,'getItem']);
     Route::post('/remove-item', [KasirController::class,'removeItem']);
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Diskon;
 use App\Models\Member;
 use App\Models\Minuman;
 use App\Models\Topping;
@@ -15,13 +16,15 @@ class KasirController extends Controller
         //ke halaman transaksi
         $minuman = Minuman::get();
         $topping = Topping::get();
+        $member = Member::get();
+        $diskon = Diskon::get();
 
         //cek jika session transaksi belum disiapkan
         if(!Session::has("transaksi")){
             $transaksi = [];
             $transaksi["dtrans"] = [];
-            $transaksi["id_diskon"] = null;
-            $transaksi["id_member"] = null;
+            $transaksi["id_diskon"] = -1;
+            $transaksi["id_member"] = -1;
             $transaksi["subtotal"] = 0;
             $transaksi["potongan"] = 0;
             $transaksi["total"] = 0;
@@ -32,7 +35,7 @@ class KasirController extends Controller
         // dump($topping);
         // dd(Session::get("transaksi.dtrans"));
 
-        return view('kasir.transaksi',compact("minuman","topping"));
+        return view('kasir.transaksi',compact("minuman","topping","member","diskon"));
     }
 
     public function addItem(Request $request)
@@ -74,6 +77,22 @@ class KasirController extends Controller
 
     public function getItem(Request $request){
         $transaksi = Session::get("transaksi");
+        $subtotal = 0;
+        foreach ($transaksi['dtrans'] as $key => $dt) {
+            $subtotal += $dt["subtotal"];
+        }
+        $transaksi["subtotal"] = $subtotal;
+        $diskon = 0;
+        if($transaksi["id_member"] > -1){
+            $diskon += 20;
+        }
+        if($transaksi["id_diskon"] > -1){
+            $d = Diskon::find($transaksi["id_diskon"]);
+            $diskon += $d->potongan;
+        }
+        $transaksi["potongan"] = $transaksi["subtotal"]*$diskon/100;
+        $transaksi["total"] = $transaksi["subtotal"] - $transaksi["potongan"];
+        Session::put("transaksi",$transaksi);
         return response()->json(json_encode($transaksi));
     }
 
@@ -82,6 +101,20 @@ class KasirController extends Controller
         $id = (int)$request->id;
         unset($transaksi["dtrans"][$id]);
         $transaksi["dtrans"] = array_values($transaksi['dtrans']);
+        Session::put("transaksi",$transaksi);
+        return response()->json(json_encode($transaksi));
+    }
+
+    public function changeDiskon(Request $request){
+        $transaksi = Session::get("transaksi");
+        $transaksi["id_diskon"] = (int)$request->id;
+        Session::put("transaksi",$transaksi);
+        return response()->json(json_encode($transaksi));
+    }
+
+    public function changeMember(Request $request){
+        $transaksi = Session::get("transaksi");
+        $transaksi["id_member"] = (int)$request->id;
         Session::put("transaksi",$transaksi);
         return response()->json(json_encode($transaksi));
     }

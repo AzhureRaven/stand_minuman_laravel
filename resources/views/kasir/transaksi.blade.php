@@ -130,6 +130,49 @@
                             </tr>
                         @endforelse
                     </tbody>
+                    <tr>
+                        <td colspan="5" style="text-align: right">Subtotal:</td>
+                        <td style="text-align: right" id="subtotal">Rp {{ Session::get('transaksi.subtotal') }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" style="text-align: right">Diskon:</td>
+                        <td style="text-align: right">
+                            <select class="form-select" name="diskon" id="diskon">
+                                <option value="-1" {{ Session::get('transaksi.id_diskon') == -1 ? 'selected' : '' }}>
+                                    No Diskon</option>
+                                @foreach ($diskon as $d)
+                                    <option {{ Session::get('transaksi.id_diskon') == $d->id_diskon ? 'selected' : '' }}
+                                        value="{{ $d->id_diskon }}">{{ $d->nama }}</option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" style="text-align:right">Member:</td>
+                        <td style="text-align: right">
+                            <select class="form-select" name="member" id="member">
+                                <option value="-1" {{ Session::get('transaksi.id_member') == -1 ? 'selected' : '' }}>
+                                    No Member</option>
+                                @foreach ($member as $m)
+                                    <option {{ Session::get('transaksi.id_member') == $m->id_member ? 'selected' : '' }}
+                                        value="{{ $m->id_member }}">{{ $m->nama }}</option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" style="text-align:right">Potongan:</td>
+                        <td style="text-align: right" id="potongan">Rp {{ Session::get('transaksi.potongan') }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" style="text-align: right">Total:</td>
+                        <td style="text-align: right" id="total">Rp {{ Session::get('transaksi.total') }}</td>
+                        <td></td>
+                    </tr>
                 </table>
             </div>
         </div>
@@ -210,7 +253,7 @@
                                 ' class="hapus btn btn-danger">Hapus</button>' + "</td>"
                             data += "</tr>";
                         }
-                        if(dtrans.length <= 0){
+                        if (dtrans.length <= 0) {
                             data += "<tr><td colspan='7'>Tidak ada data</td></tr>"
                         }
                         //href="{{ url("kasir/remove-item/'+i+'") }}"
@@ -224,9 +267,50 @@
                                 }
                             });
                         });
+                        $('#subtotal').text("Rp " + res['subtotal'])
+                        $('#potongan').text("Rp " + res['potongan'])
+                        $('#total').text("Rp " + res['total'])
                     }
                 });
             }
+
+            $('#diskon').on('change', function(e) {
+                e.preventDefault();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: "{{ url('/kasir/change-diskon') }}",
+                    method: 'post',
+                    data: {
+                        id: this.value,
+                    },
+                    success: function(result) {
+                        refreshTransaksi()
+                    }
+                });
+            });
+
+            $('#member').on('change', function(e) {
+                e.preventDefault();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: "{{ url('/kasir/change-member') }}",
+                    method: 'post',
+                    data: {
+                        id: this.value,
+                    },
+                    success: function(result) {
+                        refreshTransaksi()
+                    }
+                });
+            });
         });
     </script>
 @endsection
