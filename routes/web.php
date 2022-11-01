@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
@@ -36,8 +37,13 @@ Route::prefix('/kasir')->group(function () {
         Route::get('/member', [KasirController::class,'member']);
         Route::post('/add-member', [KasirController::class,'addMember']);
     });
-
-
+});
+Route::prefix('/admin')->group(function () {
+    Route::get('/',[AdminController::class,'master_minuman']);
+    Route::get('/category_minuman',[AdminController::class,'master_category_minuman']);
+    Route::get('/topping',[AdminController::class,'master_topping']);
+    Route::get('/member',[AdminController::class,'master_member']);
+    Route::get('/laporan_penjualan',[AdminController::class,'laporan_penjualan']);
 });
 
 

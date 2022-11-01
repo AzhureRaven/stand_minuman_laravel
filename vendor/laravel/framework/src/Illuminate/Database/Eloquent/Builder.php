@@ -110,7 +110,6 @@ class Builder implements BuilderContract
         'max',
         'min',
         'raw',
-        'rawValue',
         'sum',
         'toSql',
     ];

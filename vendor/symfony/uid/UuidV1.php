@@ -27,7 +27,7 @@ class UuidV1 extends Uuid
         if (null === $uuid) {
             $this->uid = uuid_create(static::TYPE);
         } else {
-            parent::__construct($uuid, true);
+            parent::__construct($uuid);
         }
     }
 

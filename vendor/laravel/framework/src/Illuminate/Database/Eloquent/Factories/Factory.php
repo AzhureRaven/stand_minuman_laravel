@@ -464,8 +464,9 @@ abstract class Factory
         return collect($definition)
             ->map($evaluateRelations = function ($attribute) {
                 if ($attribute instanceof self) {
-                    $attribute = $this->getRandomRecycledModel($attribute->modelName())
-                        ?? $attribute->recycle($this->recycle)->create()->getKey();
+                    $attribute = $this->recycle->has($attribute->modelName())
+                            ? $this->recycle->get($attribute->modelName())
+                            : $attribute->recycle($this->recycle)->create()->getKey();
                 } elseif ($attribute instanceof Model) {
                     $attribute = $attribute->getKey();
                 }
@@ -618,33 +619,19 @@ abstract class Factory
     }
 
     /**
-     * Provide model instances to use instead of any nested factory calls when creating relationships.
+     * Provide a model instance to use instead of any nested factory calls when creating relationships.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Illuminate\Support\Collection|array  $model
+     * @param  \Illuminate\Eloquent\Model|\Illuminate\Support\Collection|array  $model
      * @return static
      */
     public function recycle($model)
     {
-        // Group provided models by the type and merge them into existing recycle collection
         return $this->newInstance([
-            'recycle' => $this->recycle
-                ->flatten()
-                ->merge(
-                    Collection::wrap($model instanceof Model ? func_get_args() : $model)
-                        ->flatten()
-                )->groupBy(fn ($model) => get_class($model)),
+            'recycle' => $this->recycle->merge(
+                Collection::wrap($model instanceof Model ? func_get_args() : $model)
+                    ->keyBy(fn ($model) => get_class($model))
+            ),
         ]);
-    }
-
-    /**
-     * Retrieve a random model of a given type from previously provided models to recycle.
-     *
-     * @param  string  $modelClassName
-     * @return \Illuminate\Database\Eloquent\Model|null
-     */
-    public function getRandomRecycledModel($modelClassName)
-    {
-        return $this->recycle->get($modelClassName)?->random();
     }
 
     /**

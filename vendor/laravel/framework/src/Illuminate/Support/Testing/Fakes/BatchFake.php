@@ -4,7 +4,6 @@ namespace Illuminate\Support\Testing\Fakes;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Bus\Batch;
-use Illuminate\Bus\UpdatedBatchJobCounts;
 use Illuminate\Support\Carbon;
 
 class BatchFake extends Batch

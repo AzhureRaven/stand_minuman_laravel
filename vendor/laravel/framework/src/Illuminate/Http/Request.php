@@ -22,8 +22,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
  */
 class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 {
-    use Concerns\CanBePrecognitive,
-        Concerns\InteractsWithContentTypes,
+    use Concerns\InteractsWithContentTypes,
         Concerns\InteractsWithFlashData,
         Concerns\InteractsWithInput,
         Macroable;
@@ -456,7 +455,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 
         $request->setDefaultRequestLocale($from->getDefaultLocale());
 
-        $request->setJson(clone $from->json());
+        $request->setJson($from->json());
 
         if ($from->hasSession() && $session = $from->session()) {
             $request->setLaravelSession($session);

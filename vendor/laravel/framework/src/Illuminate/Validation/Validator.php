@@ -875,7 +875,11 @@ class Validator implements ValidatorContract
 
         $attributeWithPlaceholders = $attribute;
 
-        $attribute = $this->replacePlaceholderInString($attribute);
+        $attribute = str_replace(
+            [$this->dotPlaceholder, '__asterisk__'],
+            ['.', '*'],
+            $attribute
+        );
 
         if (in_array($rule, $this->excludeRules)) {
             return $this->excludeAttribute($attribute);

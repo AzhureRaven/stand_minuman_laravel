@@ -64,8 +64,8 @@ class Ulid extends AbstractUid
      */
     public static function fromString(string $ulid): static
     {
-        if (36 === \strlen($ulid) && preg_match('{^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$}Di', $ulid)) {
-            $ulid = uuid_parse($ulid);
+        if (36 === \strlen($ulid) && Uuid::isValid($ulid)) {
+            $ulid = (new Uuid($ulid))->toBinary();
         } elseif (22 === \strlen($ulid) && 22 === strspn($ulid, BinaryUtil::BASE58[''])) {
             $ulid = str_pad(BinaryUtil::fromBase($ulid, BinaryUtil::BASE58), 16, "\0", \STR_PAD_LEFT);
         }
@@ -137,7 +137,7 @@ class Ulid extends AbstractUid
         }
 
         if (4 > \strlen($time)) {
-            $time = '000'.$time;
+            $time = str_pad($time, 4, '0', \STR_PAD_LEFT);
         }
 
         return \DateTimeImmutable::createFromFormat('U.u', substr_replace($time, '.', -3, 0));
@@ -145,15 +145,25 @@ class Ulid extends AbstractUid
 
     public static function generate(\DateTimeInterface $time = null): string
     {
-        if (null === $mtime = $time) {
-            $time = microtime(false);
-            $time = substr($time, 11).substr($time, 2, 3);
-        } elseif (0 > $time = $time->format('Uv')) {
+        if (null === $time) {
+            return self::doGenerate();
+        }
+
+        if (0 > $time = substr($time->format('Uu'), 0, -3)) {
             throw new \InvalidArgumentException('The timestamp must be positive.');
         }
 
-        if ($time > self::$time || (null !== $mtime && $time !== self::$time)) {
-            randomize:
+        return self::doGenerate($time);
+    }
+
+    private static function doGenerate(string $mtime = null): string
+    {
+        if (null === $time = $mtime) {
+            $time = microtime(false);
+            $time = substr($time, 11).substr($time, 2, 3);
+        }
+
+        if ($time !== self::$time) {
             $r = unpack('nr1/nr2/nr3/nr4/nr', random_bytes(10));
             $r['r1'] |= ($r['r'] <<= 4) & 0xF0000;
             $r['r2'] |= ($r['r'] <<= 4) & 0xF0000;
@@ -163,22 +173,19 @@ class Ulid extends AbstractUid
             self::$rand = array_values($r);
             self::$time = $time;
         } elseif ([0xFFFFF, 0xFFFFF, 0xFFFFF, 0xFFFFF] === self::$rand) {
-            if (\PHP_INT_SIZE >= 8 || 10 > \strlen($time = self::$time)) {
-                $time = (string) (1 + $time);
-            } elseif ('999999999' === $mtime = substr($time, -9)) {
-                $time = (1 + substr($time, 0, -9)).'000000000';
+            if (null === $mtime) {
+                usleep(100);
             } else {
-                $time = substr_replace($time, str_pad(++$mtime, 9, '0', \STR_PAD_LEFT), -9);
+                self::$rand = [0, 0, 0, 0];
             }
 
-            goto randomize;
+            return self::doGenerate($mtime);
         } else {
             for ($i = 3; $i >= 0 && 0xFFFFF === self::$rand[$i]; --$i) {
                 self::$rand[$i] = 0;
             }
 
             ++self::$rand[$i];
-            $time = self::$time;
         }
 
         if (\PHP_INT_SIZE >= 8) {
