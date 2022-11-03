@@ -17,6 +17,16 @@ class DTrans extends Model
     public $incrementing = true;
     public $timestamps = true;
 
+    protected $fillable = [
+        'no_nota',
+        'id_minuman',
+        'id_topping',
+        'jumlah',
+        'subtotal_minuman',
+        'subtotal_topping',
+        'subtotal'
+    ];
+
     public function HTrans(){
         return $this->belongsTo(HTrans::class,"no_nota","no_nota");
     }

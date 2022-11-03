@@ -17,6 +17,11 @@ class Category_Minuman extends Model
     public $incrementing = true;
     public $timestamps = true;
 
+    protected $fillable = [
+        'id_category_minuman',
+        'nama'
+    ];
+
     public function Minuman(){
         return $this->hasMany(Minuman::class,"id_category_minuman","id_category_minuman");
     }

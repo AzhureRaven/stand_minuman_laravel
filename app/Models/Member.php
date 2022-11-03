@@ -17,6 +17,12 @@ class Member extends Model
     public $incrementing = true;
     public $timestamps = true;
 
+    protected $fillable = [
+        'id_member',
+        'nama',
+        'email'
+    ];
+
     public function HTrans(){
         return $this->hasMany(HTrans::class,"id_member","id_member");
     }

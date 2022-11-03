@@ -17,6 +17,14 @@ class Minuman extends Model
     public $incrementing = true;
     public $timestamps = true;
 
+    protected $fillable = [
+        'id_minuman',
+        'nama',
+        'gambar',
+        'harga',
+        'id_category_minuman'
+    ];
+
     public function Category_Minuman(){
         return $this->belongsTo(Category_Minuman::class,"id_category_minuman","id_category_minuman");
     }

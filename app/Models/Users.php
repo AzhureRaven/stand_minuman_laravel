@@ -18,6 +18,13 @@ class Users extends Authenticatable
     public $incrementing = true;
     public $timestamps = true;
 
+    protected $fillable = [
+        'id_users',
+        'username',
+        'password',
+        'privilege'
+    ];
+
     public function HTrans(){
         return $this->hasMany(HTrans::class,"id_users","id_users");
     }

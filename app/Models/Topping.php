@@ -17,6 +17,13 @@ class Topping extends Model
     public $incrementing = true;
     public $timestamps = true;
 
+    protected $fillable = [
+        'id_topping',
+        'nama',
+        'gambar',
+        'harga'
+    ];
+
     public function DTrans(){
         return $this->hasMany(DTrans::class,"id_topping","id_topping");
     }

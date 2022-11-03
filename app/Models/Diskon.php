@@ -17,6 +17,12 @@ class Diskon extends Model
     public $incrementing = true;
     public $timestamps = true;
 
+    protected $fillable = [
+        'id_diskon',
+        'nama',
+        'potongan'
+    ];
+
     public function HTrans(){
         return $this->hasMany(HTrans::class,"id_diskon","id_diskon");
     }
