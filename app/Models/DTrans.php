@@ -18,14 +18,14 @@ class DTrans extends Model
     public $timestamps = true;
 
     public function HTrans(){
-        return $this->hasOne(HTrans::class,"no_nota","no_nota");
+        return $this->belongsTo(HTrans::class,"no_nota","no_nota");
     }
 
     public function Minuman(){
-        return $this->hasOne(Minuman::class,"id_minuman","id_minuman");
+        return $this->belongsTo(Minuman::class,"id_minuman","id_minuman");
     }
 
     public function Topping(){
-        return $this->hasOne(Topping::class,"id_topping","id_topping");
+        return $this->belongsTo(Topping::class,"id_topping","id_topping");
     }
 }

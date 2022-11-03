@@ -18,7 +18,7 @@ class Minuman extends Model
     public $timestamps = true;
 
     public function Category_Minuman(){
-        return $this->hasOne(Category_Minuman::class,"id_category_minuman","id_category_minuman");
+        return $this->belongsTo(Category_Minuman::class,"id_category_minuman","id_category_minuman");
     }
 
     public function DTrans(){

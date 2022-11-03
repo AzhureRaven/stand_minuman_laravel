@@ -22,14 +22,14 @@ class HTrans extends Model
     }
 
     public function Member(){
-        return $this->hasOne(Member::class,"id_member","id_member");
+        return $this->belongsTo(Member::class,"id_member","id_member");
     }
 
     public function Diskon(){
-        return $this->hasOne(Diskon::class,"id_diskon","id_diskon");
+        return $this->belongsTo(Diskon::class,"id_diskon","id_diskon");
     }
 
     public function Users(){
-        return $this->hasOne(Users::class,"id_users","id_users");
+        return $this->belongsTo(Users::class,"id_users","id_users");
     }
 }
