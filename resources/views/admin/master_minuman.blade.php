@@ -19,7 +19,7 @@
         <div class="row py-2">
             <div class="col-sm">
                 <label for="">Gambar Minuman:</label>
-                <input type="text" name="gambar" id="" class="form-control" placeholder="input gambar Minuman" src="">
+                <input type="file" name="gambar" id="" class="form-control" placeholder="input gambar Minuman" src="">
             </div>
             <div class="col-sm"></div>
         </div>
@@ -66,7 +66,7 @@
             @forelse ($minuman as $key => $m)
                 <tr class="align-middle">
                     <td scope="row">{{ $m->nama }}</td>
-                    <td scope="row"><img src='{{ asset("topping/$m->gambar") }}' alt="Tidak ada gambar"></td>
+                    <td scope="row"><img src='{{ asset("minuman/$m->gambar") }}' alt="Tidak ada gambar"></td>
                     <td scope="row">{{ $m->Category_Minuman->nama }}</td>
                     <td scope="row" style="text-align: right">{{ $m->harga }}</td>
                     <td style="text-align: center">
