@@ -42,7 +42,7 @@
                                 <td scope="row"><img src='{{ asset("topping/$m->gambar") }}' alt="Tidak ada gambar">
                                 </td>
                                 <td scope="row">{{ $m->Category_Minuman->nama }}</td>
-                                <td scope="row" style="text-align: right">{{ $m->harga }}</td>
+                                <td scope="row" style="text-align: right">{{ number_format($m->harga,2,',','.') }}</td>
                                 <td style="text-align: center"><input type="radio" class="form-check-input"
                                         name="id_minuman" id="id_minuman" value="{{ $m->id_minuman }}"></td>
                             </tr>
@@ -75,7 +75,7 @@
                                 <td scope="row">{{ $t->nama }}</td>
                                 <td scope="row"><img src='{{ asset("topping/$t->gambar") }}' alt="Tidak ada gambar">
                                 </td>
-                                <td scope="row" class="ml-auto" style="text-align: right">{{ $t->harga }}</td>
+                                <td scope="row" class="ml-auto" style="text-align: right">{{ number_format($t->harga,2,',','.') }}</td>
                                 <td style="text-align: center"><input type="radio" class="form-check-input"
                                         name="id_topping" id="id_topping" value="{{ $t->id_topping }}"></td>
                             </tr>
@@ -120,9 +120,9 @@
                                 <td scope="col">{{ $dtrans['nama_minuman'] }}</td>
                                 <td scope="col">{{ $dtrans['nama_topping'] }}</td>
                                 <td scope="col">{{ $dtrans['jumlah'] }}</td>
-                                <td scope="col" style="text-align: right">{{ $dtrans['subtotal_minuman'] }}</td>
-                                <td scope="col" style="text-align: right">{{ $dtrans['subtotal_topping'] }}</td>
-                                <td scope="col" style="text-align: right">{{ $dtrans['subtotal'] }}</td>
+                                <td scope="col" style="text-align: right">{{ number_format($dtrans['subtotal_minuman'],2,',','.') }}</td>
+                                <td scope="col" style="text-align: right">{{ number_format($dtrans['subtotal_topping'],2,',','.') }}</td>
+                                <td scope="col" style="text-align: right">{{ number_format($dtrans['subtotal'],2,',','.') }}</td>
                                 <td scope="col" style="text-align: center"><button type="button"
                                         value={{ $key }} class="hapus btn btn-danger">Hapus</button></td>
                             </tr>
@@ -134,7 +134,7 @@
                     </tbody>
                         <tr>
                             <td colspan="6" style="text-align: right">Subtotal:</td>
-                            <td style="text-align: right" id="subtotal">Rp {{ Session::get('transaksi.subtotal') }}</td>
+                            <td style="text-align: right" id="subtotal">Rp {{ number_format(Session::get('transaksi.subtotal'),2,',','.') }}</td>
                             <td></td>
                         </tr>
                         <tr>
@@ -167,12 +167,12 @@
                         </tr>
                         <tr>
                             <td colspan="6" style="text-align:right">Potongan:</td>
-                            <td style="text-align: right" id="potongan">Rp {{ Session::get('transaksi.potongan') }}</td>
+                            <td style="text-align: right" id="potongan">Rp {{ number_format(Session::get('transaksi.potongan'),2,',','.') }}</td>
                             <td></td>
                         </tr>
                         <tr>
                             <td colspan="6" style="text-align: right">Total:</td>
-                            <td style="text-align: right" id="total">Rp {{ Session::get('transaksi.total') }}</td>
+                            <td style="text-align: right" id="total">Rp {{ number_format(Session::get('transaksi.total'),2,',','.') }}</td>
                             <td></td>
                         </tr>
                         <tr>
@@ -254,31 +254,30 @@
                         let res = JSON.parse(result)
                         let dtrans = res['dtrans']
                         console.log(dtrans)
-                        let data = ""
-                        for (let i = 0; i < dtrans.length; i++) {
-                            data += "<tr class='align-middle'>";
-                            data += "<td scope='col'>" + (i+1) + "</td>"
-                            data += "<td scope='col'>" + dtrans[i]["nama_minuman"] + "</td>"
-                            data += "<td scope='col'>" + dtrans[i]["nama_topping"] + "</td>"
-                            data += "<td scope='col'>" + dtrans[i]["jumlah"] + "</td>"
-                            data += "<td scope='col' style='text-align: right'>" + dtrans[i][
-                                "subtotal_minuman"
-                            ] + "</td>"
-                            data += "<td scope='col' style='text-align: right'>" + dtrans[i][
-                                "subtotal_topping"
-                            ] + "</td>"
-                            data += "<td scope='col' style='text-align: right'>" + dtrans[i][
-                                "subtotal"
-                            ] + "</td>"
-                            data += "<td scope='col' style='text-align: center'>" +
-                                '<button type="button" value=' + i +
-                                ' class="hapus btn btn-danger">Hapus</button>' + "</td>"
-                            data += "</tr>";
-                        }
-                        if (dtrans.length <= 0) {
-                            data += "<tr><td colspan='7'>Tidak ada data</td></tr>"
-                        }
-                        //href="{{ url("kasir/remove-item/'+i+'") }}"
+                        let data = res['data']
+                        // for (let i = 0; i < dtrans.length; i++) {
+                        //     data += "<tr class='align-middle'>";
+                        //     data += "<td scope='col'>" + (i+1) + "</td>"
+                        //     data += "<td scope='col'>" + dtrans[i]["nama_minuman"] + "</td>"
+                        //     data += "<td scope='col'>" + dtrans[i]["nama_topping"] + "</td>"
+                        //     data += "<td scope='col'>" + dtrans[i]["jumlah"] + "</td>"
+                        //     data += "<td scope='col' style='text-align: right'>" + dtrans[i][
+                        //         "subtotal_minuman"
+                        //     ] + "</td>"
+                        //     data += "<td scope='col' style='text-align: right'>" + dtrans[i][
+                        //         "subtotal_topping"
+                        //     ] + "</td>"
+                        //     data += "<td scope='col' style='text-align: right'>" + dtrans[i][
+                        //         "subtotal"
+                        //     ] + "</td>"
+                        //     data += "<td scope='col' style='text-align: center'>" +
+                        //         '<button type="button" value=' + i +
+                        //         ' class="hapus btn btn-danger">Hapus</button>' + "</td>"
+                        //     data += "</tr>";
+                        // }
+                        // if (dtrans.length <= 0) {
+                        //     data += "<tr><td colspan='8'>Tidak ada data</td></tr>"
+                        // }
                         $("#dtrans").html(data)
                         $('#subtotal').text("Rp " + res['subtotal'])
                         $('#potongan').text("Rp " + res['potongan'])

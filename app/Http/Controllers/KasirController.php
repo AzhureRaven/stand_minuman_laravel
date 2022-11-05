@@ -119,7 +119,7 @@ class KasirController extends Controller
         $transaksi["dtrans"][] = $dtrans;
         Session::put("transaksi", $transaksi);
 
-        return response()->json(json_encode($transaksi));
+        return response("Sukses");
     }
 
     public function getItem(Request $request)
@@ -141,6 +141,29 @@ class KasirController extends Controller
         $transaksi["potongan"] = $transaksi["subtotal"] * $diskon / 100;
         $transaksi["total"] = $transaksi["subtotal"] - $transaksi["potongan"];
         Session::put("transaksi", $transaksi);
+
+        //modif data untuk tampilan
+        $transaksi["data"] = "";
+        foreach ($transaksi['dtrans'] as $key => $dtrans) {
+            $transaksi["data"] .= "<tr class='align-middle'>";
+            $transaksi["data"] .= "<td scope='col'>" . ($key+1) . "</td>";
+            $transaksi["data"] .= "<td scope='col'>" . $dtrans["nama_minuman"] . "</td>";
+            $transaksi["data"] .= "<td scope='col'>" . $dtrans["nama_topping"] . "</td>";
+            $transaksi["data"] .= "<td scope='col'>" . $dtrans["jumlah"] . "</td>";
+            $transaksi["data"] .= "<td scope='col' style='text-align: right'>".number_format($dtrans["subtotal_minuman"],2,',','.') . "</td>";
+            $transaksi["data"] .= "<td scope='col' style='text-align: right'>".number_format($dtrans["subtotal_topping"],2,',','.') . "</td>";
+            $transaksi["data"] .= "<td scope='col' style='text-align: right'>".number_format($dtrans["subtotal"],2,',','.') . "</td>";
+            $transaksi["data"] .= "<td scope='col' style='text-align: center'>" .
+                    '<button type="button" value=' . $key .
+                    ' class="hapus btn btn-danger">Hapus</button>' . "</td>";
+            $transaksi["data"] .= "</tr>";
+        }
+        if(count($transaksi['dtrans']) == 0){
+            $transaksi["data"] .= "<tr><td colspan='8'>Tidak ada data</td></tr>";
+        }
+        $transaksi["subtotal"] = number_format($transaksi["subtotal"],2,',','.');
+        $transaksi["potongan"] = number_format($transaksi["potongan"],2,',','.');
+        $transaksi["total"] = number_format($transaksi["total"],2,',','.');
         return response()->json(json_encode($transaksi));
     }
 
@@ -154,7 +177,7 @@ class KasirController extends Controller
         $transaksi["potongan"] = 0;
         $transaksi["total"] = 0;
         Session::put("transaksi", $transaksi);
-        return response()->json(json_encode($transaksi));
+        return response("Sukses");
     }
 
     public function removeItem(Request $request)
@@ -164,7 +187,7 @@ class KasirController extends Controller
         unset($transaksi["dtrans"][$id]);
         $transaksi["dtrans"] = array_values($transaksi['dtrans']);
         Session::put("transaksi", $transaksi);
-        return response()->json(json_encode($transaksi));
+        return response("Sukses");
     }
 
     public function changeDiskon(Request $request)
@@ -172,7 +195,7 @@ class KasirController extends Controller
         $transaksi = Session::get("transaksi");
         $transaksi["id_diskon"] = (int)$request->id;
         Session::put("transaksi", $transaksi);
-        return response()->json(json_encode($transaksi));
+        return response("Sukses");
     }
 
     public function changeMember(Request $request)
@@ -180,11 +203,11 @@ class KasirController extends Controller
         $transaksi = Session::get("transaksi");
         $transaksi["id_member"] = (int)$request->id;
         Session::put("transaksi", $transaksi);
-        return response()->json(json_encode($transaksi));
+        return response("Sukses");
     }
 
 
-
+    //register member
     public function member(Request $request)
     {
         //ke halaman register member baru

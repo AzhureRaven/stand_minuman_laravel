@@ -83,6 +83,7 @@
     <div class="row">
         <div class="col">
             <h2>Detail</h2>
+            <h4 id="no_nota">No. Nota: </h4>
             <div class="tableFixBottom">
                 <table class="table table-striped table-dark">
                     <thead>
@@ -135,6 +136,7 @@
 
 
                 $('#htrans').on("click", ".detail", function(e) {
+                    let no_nota = $(this).val()
                     e.preventDefault();
                     $.ajaxSetup({
                         headers: {
@@ -145,13 +147,20 @@
                         url: "{{ url('/admin/laporan_penjualan/detail') }}",
                         method: 'post',
                         data: {
-                            no_nota: $(this).val()
+                            no_nota: no_nota
                         },
                         success: function(result) {
                             $("#dtrans").html(result)
+                            $("#no_nota").text("No. Nota: "+no_nota)
                         }
                     });
                 });
+
+                function clear() {
+                    let cleared = "<tr><td colspan='7'>Tidak ada data</td></tr>"
+                    $("#dtrans").html(cleared)
+                    $("#no_nota").text("No. Nota:")
+                }
             });
         </script>
     @endsection
