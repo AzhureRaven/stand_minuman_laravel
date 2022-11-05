@@ -14,7 +14,7 @@ class HTrans extends Model
     protected $connection = "mysql";
     protected $table = "htrans";
     protected $primaryKey = "no_nota";
-    public $incrementing = true;
+    public $incrementing = false;
     public $timestamps = true;
 
     protected $fillable = [

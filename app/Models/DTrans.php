@@ -14,7 +14,7 @@ class DTrans extends Model
     protected $connection = "mysql";
     protected $table = "dtrans";
     protected $primaryKey = "no_nota";
-    public $incrementing = true;
+    public $incrementing = false;
     public $timestamps = true;
 
     protected $fillable = [

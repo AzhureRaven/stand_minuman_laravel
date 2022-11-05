@@ -43,7 +43,12 @@ Route::prefix('/admin')->middleware(['CekPrivilege:2'])->group(function () {
     Route::get('/category_minuman',[AdminController::class,'master_category_minuman']);
     Route::get('/topping',[AdminController::class,'master_topping']);
     Route::get('/member',[AdminController::class,'master_member']);
-    Route::get('/laporan_penjualan',[AdminController::class,'laporan_penjualan']);
+    Route::prefix('/laporan_penjualan')->group(function () {
+        Route::get('/',[AdminController::class,'laporan_penjualan']);
+        Route::post('/filter',[AdminController::class,'filterLaporan']);
+        Route::post('/detail',[AdminController::class,'detailLaporan']);
+    });
+
 });
 
 
