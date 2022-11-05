@@ -22,7 +22,7 @@ Route::post('/do-login', [LoginController::class, 'doLogin']);
 Route::get('/logout', [LoginController::class, 'logout']);
 
 //routing kasir
-Route::prefix('/kasir')->group(function () {
+Route::prefix('/kasir')->middleware(['CekPrivilege:1'])->group(function () {
     Route::prefix('/transaksi')->group(function () {
         Route::get('/', [KasirController::class,'transaksi']);
         Route::post('/add-item', [KasirController::class,'addItem']);
@@ -38,7 +38,7 @@ Route::prefix('/kasir')->group(function () {
         Route::post('/add-member', [KasirController::class,'addMember']);
     });
 });
-Route::prefix('/admin')->group(function () {
+Route::prefix('/admin')->middleware(['CekPrivilege:2'])->group(function () {
     Route::get('/',[AdminController::class,'master_minuman']);
     Route::get('/category_minuman',[AdminController::class,'master_category_minuman']);
     Route::get('/topping',[AdminController::class,'master_topping']);
