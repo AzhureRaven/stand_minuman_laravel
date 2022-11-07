@@ -14,22 +14,97 @@ class AdminController extends Controller
 {
     public function master_minuman(Request $request)
     {
-        $minuman=Minuman::all();
+        $minuman=Minuman::withTrashed()->get();
         return view('admin.master_minuman',compact('minuman'));
     }
+
+    //category minuman
     public function master_category_minuman(Request $request)
     {
-        $category=Category_Minuman::all();
-        return view('admin.master_category_minuman',compact('category'));
+        $category=Category_Minuman::withTrashed()->get();
+        if($request->id){
+            $curCategory = Category_Minuman::withTrashed()->find($request->id);
+        }
+        else{
+            $curCategory = [];
+        }
+        return view('admin.master_category_minuman',compact('category','curCategory'));
     }
+
+    public function simpan_category_minuman(Request $request)
+    {
+        $rules = [
+            'nama' => 'required | max:30',
+        ];
+        $message = [
+            "nama.required" => ":attribute harus diisi",
+            "nama.max" => ":attribute maks 50 huruf",
+        ];
+
+        $request->validate($rules, $message);
+
+        $id_category_minuman = $request->id_category_minuman;
+        if($id_category_minuman != 1){
+            if($request->type == "Update"){
+                $category = Category_Minuman::withTrashed()->find($id_category_minuman);
+                $category->nama = $request->nama;
+                $result = $category->save();
+            }
+            else{
+                $category = new Category_Minuman();
+                $category->nama = $request->nama;
+                $result = $category->save();
+            }
+
+            if ($result) {
+                return redirect('admin/category_minuman')->with("success", "Category Disimpan!");
+            } else {
+                return redirect('admin/category_minuman')->with("error", "Category Tidak Bisa Disimpan!");
+            }
+
+        }
+        else{
+            return redirect('admin/category_minuman')->with("error", "Category Tidak Bisa Disimpan!");
+        }
+    }
+
+    public function delete_category_minuman(Request $request)
+    {
+
+        $id = $request->id;
+        if($id != 1){
+            $result = Category_Minuman::find($id)->delete();
+            return redirect('admin/category_minuman')->with("success", "Category Dihapus!");
+        }
+        else{
+            return redirect('admin/category_minuman')->with("error", "Category Tidak Dihapus!");
+        }
+    }
+
+    public function restore_category_minuman(Request $request)
+    {
+
+        $id = $request->id;
+        if($id != 1){
+            $result = Category_Minuman::withTrashed()->find($id)->restore();
+            return redirect('admin/category_minuman')->with("success", "Category Direstore!");
+        }
+        else{
+            return redirect('admin/category_minuman')->with("error", "Category Tidak Direstore!");
+        }
+    }
+
+
+
+
     public function master_topping(Request $request)
     {
-        $topping=Topping::all();
+        $topping=Topping::withTrashed()->get();
         return view('admin.master_topping',compact('topping'));
     }
     public function master_member(Request $request)
     {
-        $member=Member::all();
+        $member=Member::withTrashed()->get();
         return view('admin.master_member',compact('member'));
     }
 

@@ -10,7 +10,7 @@
                     <a href="#" disabled class="nav-link disabled text-white">Kasir: {{Auth::user()->nama}}</a>
                 </li> --}}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url('/admin') }}">Master Minuman</a>
+                    <a class="nav-link" href="{{ url('/admin/minuman') }}">Master Minuman</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('/admin/category_minuman') }}">Master Category Minuman</a>

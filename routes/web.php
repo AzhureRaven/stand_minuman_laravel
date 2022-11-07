@@ -39,8 +39,16 @@ Route::prefix('/kasir')->middleware(['CekPrivilege:1'])->group(function () {
     });
 });
 Route::prefix('/admin')->middleware(['CekPrivilege:2'])->group(function () {
-    Route::get('/',[AdminController::class,'master_minuman']);
+    Route::get('/minuman',[AdminController::class,'master_minuman']);
+
+    Route::prefix('/category_minuman')->group(function () {
+        Route::get('/{id?}',[AdminController::class,'master_category_minuman']);
+        Route::post('/simpan',[AdminController::class,'simpan_category_minuman']);
+        Route::get('/delete/{id}',[AdminController::class,'delete_category_minuman']);
+        Route::get('/restore/{id}',[AdminController::class,'restore_category_minuman']);
+    });
     Route::get('/category_minuman',[AdminController::class,'master_category_minuman']);
+
     Route::get('/topping',[AdminController::class,'master_topping']);
     Route::get('/member',[AdminController::class,'master_member']);
     Route::prefix('/laporan_penjualan')->group(function () {

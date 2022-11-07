@@ -23,7 +23,7 @@ class LoginController extends Controller
         ];
         if (Auth::attempt($credential)) {
             if(Auth::user()->privilege == 1) return redirect('kasir/transaksi'); //login sebagai kasir yang punya privilege 1
-            else return redirect('admin'); //login sebagai admin yang punya privilege 2. //belum selesai yang ini
+            else return redirect('admin/minuman'); //login sebagai admin yang punya privilege 2. //belum selesai yang ini
         } else {
             return redirect('/')->with('error', 'Username/Password Invalid');
         }

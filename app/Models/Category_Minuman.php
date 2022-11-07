@@ -13,7 +13,7 @@ class Category_Minuman extends Model
 
     protected $connection = "mysql";
     protected $table = "category_minuman";
-    protected $primaryKey = "id_";
+    protected $primaryKey = "id_category_minuman";
     public $incrementing = true;
     public $timestamps = true;
 
