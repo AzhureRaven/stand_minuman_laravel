@@ -47,7 +47,13 @@ Route::prefix('/admin')->middleware(['CekPrivilege:2'])->group(function () {
         Route::get('/delete/{id}',[AdminController::class,'delete_category_minuman']);
         Route::get('/restore/{id}',[AdminController::class,'restore_category_minuman']);
     });
-    Route::get('/category_minuman',[AdminController::class,'master_category_minuman']);
+
+    Route::prefix('/users')->group(function () {
+        Route::get('/{id?}',[AdminController::class,'master_users']);
+        Route::post('/simpan',[AdminController::class,'simpan_users']);
+        Route::get('/delete/{id}',[AdminController::class,'delete_users']);
+        Route::get('/restore/{id}',[AdminController::class,'restore_users']);
+    });
 
     Route::get('/topping',[AdminController::class,'master_topping']);
     Route::get('/member',[AdminController::class,'master_member']);
