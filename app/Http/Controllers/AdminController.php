@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category_Minuman;
+use App\Models\Diskon;
 use App\Models\DTrans;
 use App\Models\HTrans;
 use App\Models\Member;
@@ -148,6 +149,79 @@ class AdminController extends Controller
             return redirect('admin/category_minuman')->with("success", "Category Direstore!");
         } else {
             return redirect('admin/category_minuman')->with("error", "Category Tidak Direstore!");
+        }
+    }
+
+    //diskon
+    public function master_diskon(Request $request)
+    {
+        $diskon = Diskon::withTrashed()->get();
+        if ($request->id) {
+            $curDiskon = Diskon::withTrashed()->find($request->id);
+        } else {
+            $curDiskon = [];
+        }
+        return view('admin.master_diskon', compact('diskon', 'curDiskon'));
+    }
+
+    public function simpan_diskon(Request $request)
+    {
+        $rules = [
+            'nama' => 'required | max:50',
+            'potongan' => 'required | numeric | gte:0 | lte:100',
+        ];
+        $message = [
+            "nama.required" => ":attribute harus diisi",
+            "nama.max" => ":attribute maks 50 huruf",
+            "potongan.required" => ":attribute harus diisi",
+            "potongan.numeric" => ":attribute angka",
+            "potongan.gte" => ":attribute harus lebih dari 0",
+            "potongan.lte" => ":attribute harus lebih dari 100",
+        ];
+
+        $request->validate($rules, $message);
+
+        $id_diskon = $request->id_diskon;
+            if ($request->type == "Update") {
+                $diskon = Diskon::withTrashed()->find($id_diskon);
+                $diskon->nama = $request->nama;
+                $diskon->potongan = $request->potongan;
+                $result = $diskon->save();
+            } else {
+                $diskon = new Diskon();
+                $diskon->nama = $request->nama;
+                $diskon->potongan = $request->potongan;
+                $result = $diskon->save();
+            }
+
+            if ($result) {
+                return redirect('admin/diskon')->with("success", "Diskon Disimpan!");
+            } else {
+                return redirect('admin/diskon')->with("error", "Diskon Tidak Bisa Disimpan!");
+            }
+    }
+
+    public function delete_diskon(Request $request)
+    {
+
+        $id = $request->id;
+        if ($id != 1) {
+            $result = Diskon::find($id)->delete();
+            return redirect('admin/diskon')->with("success", "Diskon Dihapus!");
+        } else {
+            return redirect('admin/diskon')->with("error", "Diskon Tidak Dihapus!");
+        }
+    }
+
+    public function restore_diskon(Request $request)
+    {
+
+        $id = $request->id;
+        if ($id != 1) {
+            $result = Diskon::withTrashed()->find($id)->restore();
+            return redirect('admin/diskon')->with("success", "Diskon Direstore!");
+        } else {
+            return redirect('admin/diskon')->with("error", "Diskon Tidak Direstore!");
         }
     }
 

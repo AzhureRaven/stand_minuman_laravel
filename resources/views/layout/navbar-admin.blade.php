@@ -25,6 +25,9 @@
                     <a class="nav-link" href="{{ url('/admin/users') }}">Master Users</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/admin/diskon') }}">Master Diskon</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{ url('/admin/laporan_penjualan') }}">Laporan Penjualan</a>
                 </li>
             </ul>

@@ -76,6 +76,14 @@ Route::prefix('/admin')->middleware(['CekPrivilege:2'])->group(function () {
 
     });
 
+    Route::prefix('/diskon')->group(function () {
+        Route::get('/{id?}',[AdminController::class,'master_diskon']);
+        Route::post('/simpan',[AdminController::class,'simpan_diskon']);
+        Route::get('/delete/{id}',[AdminController::class,'delete_diskon']);
+        Route::get('/restore/{id}',[AdminController::class,'restore_diskon']);
+
+    });
+
     Route::prefix('/laporan_penjualan')->group(function () {
         Route::get('/',[AdminController::class,'laporan_penjualan']);
         Route::post('/filter',[AdminController::class,'filterLaporan']);
