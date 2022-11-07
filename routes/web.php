@@ -39,7 +39,13 @@ Route::prefix('/kasir')->middleware(['CekPrivilege:1'])->group(function () {
     });
 });
 Route::prefix('/admin')->middleware(['CekPrivilege:2'])->group(function () {
-    Route::get('/minuman',[AdminController::class,'master_minuman']);
+
+    Route::prefix('/minuman')->group(function () {
+        Route::get('/{id?}',[AdminController::class,'master_minuman']);
+        Route::post('/simpan',[AdminController::class,'simpan_minuman']);
+        Route::get('/delete/{id}',[AdminController::class,'delete_minuman']);
+        Route::get('/restore/{id}',[AdminController::class,'restore_minuman']);
+    });
 
     Route::prefix('/category_minuman')->group(function () {
         Route::get('/{id?}',[AdminController::class,'master_category_minuman']);
@@ -55,8 +61,21 @@ Route::prefix('/admin')->middleware(['CekPrivilege:2'])->group(function () {
         Route::get('/restore/{id}',[AdminController::class,'restore_users']);
     });
 
-    Route::get('/topping',[AdminController::class,'master_topping']);
-    Route::get('/member',[AdminController::class,'master_member']);
+    Route::prefix('/member')->group(function () {
+        Route::get('/{id?}',[AdminController::class,'master_member']);
+        Route::post('/simpan',[AdminController::class,'simpan_member']);
+        Route::get('/delete/{id}',[AdminController::class,'delete_member']);
+        Route::get('/restore/{id}',[AdminController::class,'restore_member']);
+    });
+
+    Route::prefix('/topping')->group(function () {
+        Route::get('/{id?}',[AdminController::class,'master_topping']);
+        Route::post('/simpan',[AdminController::class,'simpan_topping']);
+        Route::get('/delete/{id}',[AdminController::class,'delete_topping']);
+        Route::get('/restore/{id}',[AdminController::class,'restore_topping']);
+
+    });
+
     Route::prefix('/laporan_penjualan')->group(function () {
         Route::get('/',[AdminController::class,'laporan_penjualan']);
         Route::post('/filter',[AdminController::class,'filterLaporan']);

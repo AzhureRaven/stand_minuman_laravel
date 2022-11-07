@@ -16,8 +16,69 @@ class AdminController extends Controller
 {
     public function master_minuman(Request $request)
     {
-        $minuman = Minuman::withTrashed()->get();
-        return view('admin.master_minuman', compact('minuman'));
+        $minuman=Minuman::withTrashed()->get();
+        $curMinuman=Minuman::withTrashed()->get();
+        if($request->id){
+            $curMinuman = Minuman::withTrashed()->find($request->id);
+        }
+        else{
+            $curMinuman = [];
+        }
+        return view('admin.master_minuman',compact('minuman','curMinuman'));
+    }
+    public function simpan_minuman(Request $request)
+    {
+        $rules = [
+            'nama' => 'required | max:30',
+            'gambar'=>'nullable',
+            'harga'=>'required|Integer',
+        ];
+        $message = [
+            "nama.required" => ":attribute harus diisi",
+            "nama.max" => ":attribute maks 50 huruf",
+            "harga.required" => ":attribute harus diisi",
+        ];
+
+        $request->validate($rules, $message);
+
+        $id_minuman= $request->id_minuman;
+        if($request->type == "Update"){
+            $minuman = Minuman::withTrashed()->find($id_minuman);
+            $minuman->nama = $request->nama;
+            $minuman->gambar = $request->gambar;
+            $minuman->harga = $request->harga;
+            $minuman->id_category_minuman = $request->category_minuman;
+            $result = $minuman->save();
+        }
+        else{
+            $minuman = new Minuman();
+            $minuman->nama = $request->nama;
+            $minuman->gambar = $request->gambar;
+            $minuman->harga = $request->harga;
+            $minuman->id_category_minuman = $request->category_minuman;
+            $result = $minuman->save();
+        }
+
+        if ($result) {
+            return redirect('admin/minuman')->with("success", "Minuman Disimpan!");
+        } else {
+            return redirect('admin/minuman')->with("error", "Minuman Tidak Bisa Disimpan!");
+        }
+    }
+
+    public function delete_minuman(Request $request)
+    {
+
+        $id = $request->id;
+        $result = Minuman::find($id)->delete();
+        return redirect('admin/minuman')->with("success", "Minuman Dihapus!");
+    }
+
+    public function restore_minuman(Request $request)
+    {
+        $id = $request->id;
+        $result = Minuman::withTrashed()->find($id)->restore();
+        return redirect('admin/minuman')->with("success", "Minuman Direstore!");
     }
 
     //category minuman //di main kopas terus ganti isinya biar cepat
@@ -173,13 +234,132 @@ class AdminController extends Controller
 
     public function master_topping(Request $request)
     {
-        $topping = Topping::withTrashed()->get();
-        return view('admin.master_topping', compact('topping'));
+        $topping=Topping::withTrashed()->get();
+        $curTopping=Member::withTrashed()->get();
+        if($request->id){
+            $curTopping = Topping::withTrashed()->find($request->id);
+        }
+        else{
+            $curTopping = [];
+        }
+        return view('admin.master_topping',compact('topping','curTopping'));
     }
+    public function simpan_topping(Request $request)
+    {
+        $rules = [
+            'nama' => 'required | max:30',
+            'gambar'=>'nullable',
+            'harga'=>'required|Integer',
+        ];
+        $message = [
+            "nama.required" => ":attribute harus diisi",
+            "nama.max" => ":attribute maks 50 huruf",
+            "harga.required" => ":attribute harus diisi",
+        ];
+
+        $request->validate($rules, $message);
+
+        $id_topping= $request->id_topping;
+        if($request->type == "Update"){
+            $topping = Topping::withTrashed()->find($id_topping);
+            $topping->nama = $request->nama;
+            $topping->gambar = $request->gambar;
+            $topping->harga = $request->harga;
+            $result = $topping->save();
+        }
+        else{
+            $topping = new Topping();
+            $topping->nama = $request->nama;
+            $topping->gambar = $request->gambar;
+            $topping->harga = $request->harga;
+            $result = $topping->save();
+        }
+
+        if ($result) {
+            return redirect('admin/topping')->with("success", "Topping Disimpan!");
+        } else {
+            return redirect('admin/topping')->with("error", "Topping Tidak Bisa Disimpan!");
+        }
+    }
+
+    public function delete_topping(Request $request)
+    {
+
+        $id = $request->id;
+        $result = Topping::find($id)->delete();
+        return redirect('admin/topping')->with("success", "Topping Dihapus!");
+    }
+
+    public function restore_topping(Request $request)
+    {
+        $id = $request->id;
+        $result = Topping::withTrashed()->find($id)->restore();
+        return redirect('admin/topping')->with("success", "Topping Direstore!");
+    }
+
+
     public function master_member(Request $request)
     {
-        $member = Member::withTrashed()->get();
-        return view('admin.master_member', compact('member'));
+        $member=Member::withTrashed()->get();
+        $curMember=Member::withTrashed()->get();
+        if($request->id){
+            $curMember = Member::withTrashed()->find($request->id);
+        }
+        else{
+            $curMember = [];
+        }
+        return view('admin.master_member',compact('member','curMember'));
+    }
+
+    public function simpan_member(Request $request)
+    {
+        $rules = [
+            'nama' => 'required | max:30',
+            'email'=> 'required | email'
+        ];
+        $message = [
+            "nama.required" => ":attribute harus diisi",
+            "nama.max" => ":attribute maks 50 huruf",
+            "email.required"=>":attribute harus diisi",
+            "email.email"=>":attribute harus dalam bentuk email yang valid",
+        ];
+
+        $request->validate($rules, $message);
+
+        $id_member= $request->id_member;
+        if($request->type == "Update"){
+            $member = Member::withTrashed()->find($id_member);
+            $member->nama = $request->nama;
+            $member->email = $request->email;
+            $result = $member->save();
+        }
+        else{
+            $member = new Member();
+            $member->nama = $request->nama;
+            $member->email = $request->email;
+            $result = $member->save();
+        }
+
+        if ($result) {
+            return redirect('admin/member')->with("success", "Member Disimpan!");
+        } else {
+            return redirect('admin/member')->with("error", "Member Tidak Bisa Disimpan!");
+        }
+    }
+
+    public function delete_member(Request $request)
+    {
+
+        $id = $request->id;
+        $result = Member::find($id)->delete();
+        return redirect('admin/member')->with("success", "Member Dihapus!");
+    }
+
+    public function restore_member(Request $request)
+    {
+        $id = $request->id;
+        $result = Member::withTrashed()->find($id)->restore();
+        return redirect('admin/member')->with("success", "Member Direstore!");
     }
 
 
