@@ -61,6 +61,7 @@
     <table class="table table-striped table-dark">
         <thead>
             <tr>
+                <th scope="col" >Id</th>
                 <th scope="col" >Nama</th>
                 <th scope="col" >Email</th>
                 <th scope="col" style="text-align: center">Action</th>
@@ -69,6 +70,7 @@
         <tbody>
             @forelse ($member as $key => $m)
                 <tr class="align-middle">
+                    <td scope="row">{{ $m->id_minuman }}</td>
                     <td scope="row" >{{ $m->nama }}</td>
                     <td scope="row" >{{ $m->email }}</td>
                     <td style="text-align: center" >

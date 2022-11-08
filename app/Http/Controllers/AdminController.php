@@ -30,14 +30,17 @@ class AdminController extends Controller
     public function simpan_minuman(Request $request)
     {
         $rules = [
-            'nama' => 'required | max:30',
+            'nama' => 'required | max:100',
             'gambar'=>'nullable',
             'harga'=>'required|Integer',
+            'category_minuman'=>'required',
         ];
         $message = [
             "nama.required" => ":attribute harus diisi",
-            "nama.max" => ":attribute maks 50 huruf",
+            "nama.max" => ":attribute maks 100 huruf",
             "harga.required" => ":attribute harus diisi",
+            "harga.Integer" => ":attribute harus integer",
+            "category_minuman.required" => ":attribute harus diisi",
         ];
 
         $request->validate($rules, $message);
@@ -321,54 +324,70 @@ class AdminController extends Controller
     public function simpan_topping(Request $request)
     {
         $rules = [
-            'nama' => 'required | max:30',
+            'nama' => 'required | max:100',
             'gambar'=>'nullable',
             'harga'=>'required|Integer',
         ];
         $message = [
             "nama.required" => ":attribute harus diisi",
-            "nama.max" => ":attribute maks 50 huruf",
+            "nama.max" => ":attribute maks 100 huruf",
             "harga.required" => ":attribute harus diisi",
+            "harga.Integer" => ":attribute harus integer",
         ];
 
         $request->validate($rules, $message);
 
         $id_topping= $request->id_topping;
-        if($request->type == "Update"){
-            $topping = Topping::withTrashed()->find($id_topping);
-            $topping->nama = $request->nama;
-            $topping->gambar = $request->gambar;
-            $topping->harga = $request->harga;
-            $result = $topping->save();
-        }
-        else{
-            $topping = new Topping();
-            $topping->nama = $request->nama;
-            $topping->gambar = $request->gambar;
-            $topping->harga = $request->harga;
-            $result = $topping->save();
-        }
+        if ($id_topping != 1) {
+            if($request->type == "Update"){
+                $topping = Topping::withTrashed()->find($id_topping);
+                $topping->nama = $request->nama;
+                $topping->gambar = $request->gambar;
+                $topping->harga = $request->harga;
+                $result = $topping->save();
+            }
+            else{
+                $topping = new Topping();
+                $topping->nama = $request->nama;
+                $topping->gambar = $request->gambar;
+                $topping->harga = $request->harga;
+                $result = $topping->save();
+            }
 
-        if ($result) {
-            return redirect('admin/topping')->with("success", "Topping Disimpan!");
+            if ($result) {
+                return redirect('admin/topping')->with("success", "Topping Disimpan!");
+            } else {
+                return redirect('admin/topping')->with("error", "Topping Tidak Bisa Disimpan!");
+            }
         } else {
             return redirect('admin/topping')->with("error", "Topping Tidak Bisa Disimpan!");
         }
+
+
+
     }
 
     public function delete_topping(Request $request)
     {
 
         $id = $request->id;
-        $result = Topping::find($id)->delete();
-        return redirect('admin/topping')->with("success", "Topping Dihapus!");
+        if ($id != 1) {
+            $result = Topping::find($id)->delete();
+            return redirect('admin/topping')->with("success", "Topping Dihapus!");
+        } else {
+            return redirect('admin/topping')->with("error", "Topping Tidak Dihapus!");
+        }
     }
 
     public function restore_topping(Request $request)
     {
         $id = $request->id;
-        $result = Topping::withTrashed()->find($id)->restore();
-        return redirect('admin/topping')->with("success", "Topping Direstore!");
+        if ($id != 1) {
+            $result = Topping::withTrashed()->find($id)->restore();
+            return redirect('admin/topping')->with("success", "Topping Direstore!");
+        } else {
+            return redirect('admin/topping')->with("error", "Topping Tidak Direstore!");
+        }
     }
 
 
@@ -388,13 +407,14 @@ class AdminController extends Controller
     public function simpan_member(Request $request)
     {
         $rules = [
-            'nama' => 'required | max:30',
-            'email'=> 'required | email'
+            'nama' => 'required | max:50',
+            'email'=> 'required | email | max:50'
         ];
         $message = [
             "nama.required" => ":attribute harus diisi",
             "nama.max" => ":attribute maks 50 huruf",
             "email.required"=>":attribute harus diisi",
+            "email.max"=>":attribute maks 50 huruf",
             "email.email"=>":attribute harus dalam bentuk email yang valid",
         ];
 

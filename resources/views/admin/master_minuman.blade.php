@@ -88,6 +88,7 @@
     <table class="table table-striped table-dark">
         <thead>
             <tr>
+                <th scope="col">Id</th>
                 <th scope="col">Nama</th>
                 <th scope="col">Gambar</th>
                 <th scope="col">Category</th>
@@ -98,6 +99,7 @@
         <tbody>
             @forelse ($minuman as $key => $m)
                 <tr class="align-middle">
+                    <td scope="row">{{ $m->id_minuman }}</td>
                     <td scope="row">{{ $m->nama }}</td>
                     <td scope="row"><img src='{{ asset("minuman/$m->gambar") }}' alt="Tidak ada gambar" style="width: 10em ;height: 10em;"></td>
                     <td scope="row">{{ $m->Category_Minuman->nama }}</td>
