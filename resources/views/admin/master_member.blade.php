@@ -70,7 +70,7 @@
         <tbody>
             @forelse ($member as $key => $m)
                 <tr class="align-middle">
-                    <td scope="row">{{ $m->id_minuman }}</td>
+                    <td scope="row">{{ $m->id_member }}</td>
                     <td scope="row" >{{ $m->nama }}</td>
                     <td scope="row" >{{ $m->email }}</td>
                     <td style="text-align: center" >

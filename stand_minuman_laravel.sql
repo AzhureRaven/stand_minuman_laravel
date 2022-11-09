@@ -223,7 +223,7 @@ CREATE TABLE `users` (
 /*Data for the table `users` */
 
 insert  into `users`(`id_users`,`username`,`password`,`nama`,`privilege`,`created_at`,`updated_at`,`deleted_at`) values 
-(1,'admin','$2y$10$d.4J.XS32dxBLpkkssT.jO.U5ytS7QmkBNZ7vHIRiEPgBz/MuBIOq','admin',2,NULL,NULL,NULL),
+(1,'admin','$2y$10$ZQMeEAWJ4doPFv7MpGksF.4xJ0CbJj9tRNq3Ed.AFFaYOkCfZGpp6','admin',2,NULL,'2022-11-09 04:22:35',NULL),
 (2,'Azhure','$2y$10$d.4J.XS32dxBLpkkssT.jO.U5ytS7QmkBNZ7vHIRiEPgBz/MuBIOq','Azhure Raven',1,NULL,NULL,NULL),
 (3,'Kevin','$2y$10$d.4J.XS32dxBLpkkssT.jO.U5ytS7QmkBNZ7vHIRiEPgBz/MuBIOq','Kevin Jonathan',1,NULL,NULL,NULL),
 (4,'Rocky','$2y$10$d.4J.XS32dxBLpkkssT.jO.U5ytS7QmkBNZ7vHIRiEPgBz/MuBIOq','Rocky Chandra',1,NULL,NULL,NULL);
