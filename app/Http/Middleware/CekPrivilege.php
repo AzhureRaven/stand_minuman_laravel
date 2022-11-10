@@ -21,6 +21,9 @@ class CekPrivilege
             if(Auth::guard('web')->user()->privilege == $privilege){
                 return $next($request);
             }
+            else{
+                return redirect("logout");
+            }
         }
         abort(403);
     }
