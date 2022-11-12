@@ -130,6 +130,7 @@
                         },
                         success: function(result) {
                             $("#htrans").html(result)
+                            clear()
                         }
                     });
                 });
