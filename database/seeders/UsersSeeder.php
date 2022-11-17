@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Users;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -25,13 +26,8 @@ class UsersSeeder extends Seeder
                 'password' => Hash::make("admin"),
                 'nama' => 'admin',
                 'privilege' => 2
-            ],
-            [
-                'username' => 'Azhure',
-                'password' => Hash::make("Azhure"),
-                'nama' => 'Azhure Raven',
-                'privilege' => 1
             ]
         ]);
+        Users::factory()->count(5)->create();
     }
 }
