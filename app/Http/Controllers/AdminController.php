@@ -31,7 +31,7 @@ class AdminController extends Controller
     {
         $rules = [
             'nama' => 'required | max:100',
-            'gambar'=>'nullable',
+            'gambar'=>'nullable | image',
             'harga'=>'required|Integer',
             'category_minuman'=>'required',
         ];
@@ -39,6 +39,7 @@ class AdminController extends Controller
             "nama.required" => ":attribute harus diisi",
             "nama.max" => ":attribute maks 100 huruf",
             "harga.required" => ":attribute harus diisi",
+            "gambar.image" => ":attribute harus sebuah gambar",
             "harga.Integer" => ":attribute harus integer",
             "category_minuman.required" => ":attribute harus diisi",
         ];
@@ -49,17 +50,25 @@ class AdminController extends Controller
         if($request->type == "Update"){
             $minuman = Minuman::withTrashed()->find($id_minuman);
             $minuman->nama = $request->nama;
-            $minuman->gambar = $request->gambar;
             $minuman->harga = $request->harga;
             $minuman->id_category_minuman = $request->category_minuman;
+            if($request->file("gambar")){
+                $namaFile = $request->file("gambar")->getClientOriginalName();
+                $request->file('gambar')->storeAs('minuman',$namaFile,'public');
+                $minuman->gambar = $namaFile;
+            }
             $result = $minuman->save();
         }
         else{
             $minuman = new Minuman();
             $minuman->nama = $request->nama;
-            $minuman->gambar = $request->gambar;
             $minuman->harga = $request->harga;
             $minuman->id_category_minuman = $request->category_minuman;
+            if($request->file("gambar")){
+                $namaFile = $request->file("gambar")->getClientOriginalName();
+                $request->file('gambar')->storeAs('minuman',$namaFile,'public');
+                $minuman->gambar = $namaFile;
+            }
             $result = $minuman->save();
         }
 
@@ -325,12 +334,13 @@ class AdminController extends Controller
     {
         $rules = [
             'nama' => 'required | max:100',
-            'gambar'=>'nullable',
+            'gambar'=>'nullable | image',
             'harga'=>'required|Integer',
         ];
         $message = [
             "nama.required" => ":attribute harus diisi",
             "nama.max" => ":attribute maks 100 huruf",
+            "gambar.image" => ":attribute harus sebuah gambar",
             "harga.required" => ":attribute harus diisi",
             "harga.Integer" => ":attribute harus integer",
         ];
@@ -342,15 +352,23 @@ class AdminController extends Controller
             if($request->type == "Update"){
                 $topping = Topping::withTrashed()->find($id_topping);
                 $topping->nama = $request->nama;
-                $topping->gambar = $request->gambar;
                 $topping->harga = $request->harga;
+                if($request->file("gambar")){
+                    $namaFile = $request->file("gambar")->getClientOriginalName();
+                    $request->file('gambar')->storeAs('topping',$namaFile,'public');
+                    $topping->gambar = $namaFile;
+                }
                 $result = $topping->save();
             }
             else{
                 $topping = new Topping();
                 $topping->nama = $request->nama;
-                $topping->gambar = $request->gambar;
                 $topping->harga = $request->harga;
+                if($request->file("gambar")){
+                    $namaFile = $request->file("gambar")->getClientOriginalName();
+                    $request->file('gambar')->storeAs('topping',$namaFile,'public');
+                    $topping->gambar = $namaFile;
+                }
                 $result = $topping->save();
             }
 

@@ -1,5 +1,10 @@
 @extends('layout.main-admin')
 
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/image.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/scroll-table.css') }}">
+@endsection
+
 @section('main')
 <h1>Master Minuman</h1>
 @php
@@ -21,7 +26,7 @@
 @endforeach
 @endif
 <div class="container">
-    <form action="/admin/minuman/simpan"  method="post">
+    <form action="/admin/minuman/simpan" method="post" enctype="multipart/form-data">
         @csrf
         <div class="row py-2">
             <div class="col-sm">
@@ -101,7 +106,7 @@
                 <tr class="align-middle">
                     <td scope="row">{{ $m->id_minuman }}</td>
                     <td scope="row">{{ $m->nama }}</td>
-                    <td scope="row"><img src='{{ asset("minuman/$m->gambar") }}' alt="Tidak ada gambar" style="width: 10em ;height: 10em;"></td>
+                    <td scope="row"><img src='{{ asset("storage/minuman/$m->gambar") }}' alt="Tidak ada gambar"></td>
                     <td scope="row">{{ $m->Category_Minuman->nama }}</td>
                     <td scope="row" style="text-align: right">{{ $m->harga }}</td>
                     <td style="text-align: center">

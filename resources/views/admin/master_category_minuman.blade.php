@@ -1,5 +1,10 @@
 @extends('layout.main-admin')
 
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/image.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/scroll-table.css') }}">
+@endsection
+
 @section('main')
     <h1>Master Category Minuman</h1>
     @php

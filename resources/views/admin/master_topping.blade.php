@@ -1,5 +1,10 @@
 @extends('layout.main-admin')
 
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/image.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/scroll-table.css') }}">
+@endsection
+
 @section('main')
     <h1>Master Topping</h1>
     @php
@@ -20,7 +25,7 @@
         @endforeach
     @endif
     <div class="container">
-        <form action="/admin/topping/simpan" method="post">
+        <form action="/admin/topping/simpan" method="post" enctype="multipart/form-data">
             @csrf
             <div class="row py-2">
                 <div class="col-sm">
@@ -85,8 +90,8 @@
                     <tr class="align-middle">
                         <td scope="row">{{ $m->id_topping }}</td>
                         <td scope="row">{{ $m->nama }}</td>
-                        <td scope="row"><img src='{{ asset("topping/$m->gambar") }}' alt="Tidak ada gambar"
-                                style="width: 10em ;height: 10em;"></td>
+                        <td scope="row"><img src='{{ asset("storage/topping/$m->gambar") }}' alt="Tidak ada gambar"
+                                ></td>
                         <td scope="row">{{ $m->harga }}</td>
                         <td style="text-align: center">
                             @if ($m->id_topping != 1)

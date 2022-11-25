@@ -39,7 +39,7 @@
                             <tr class="align-middle">
                                 <td scope="row">{{ $m->id_minuman }}</td>
                                 <td scope="row">{{ $m->nama }}</td>
-                                <td scope="row"><img src='{{ asset("topping/$m->gambar") }}' alt="Tidak ada gambar">
+                                <td scope="row"><img src='{{ asset("storage/minuman/$m->gambar") }}' alt="Tidak ada gambar">
                                 </td>
                                 <td scope="row">{{ $m->Category_Minuman->nama }}</td>
                                 <td scope="row" style="text-align: right">{{ number_format($m->harga,2,',','.') }}</td>
@@ -73,7 +73,7 @@
                             <tr class="align-middle">
                                 <td scope="row">{{ $t->id_topping }}</td>
                                 <td scope="row">{{ $t->nama }}</td>
-                                <td scope="row"><img src='{{ asset("topping/$t->gambar") }}' alt="Tidak ada gambar">
+                                <td scope="row"><img src='{{ asset("storage/topping/$t->gambar") }}' alt="Tidak ada gambar">
                                 </td>
                                 <td scope="row" class="ml-auto" style="text-align: right">{{ number_format($t->harga,2,',','.') }}</td>
                                 <td style="text-align: center"><input type="radio" class="form-check-input"
