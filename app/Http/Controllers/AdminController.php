@@ -544,7 +544,13 @@ class AdminController extends Controller
                 $dresponse .= '<tr class="align-middle">';
                 $dresponse .= '<td scope="col">' . ($key + 1) . '</td>';
                 $dresponse .= '<td scope="col">' . $dt->Minuman->nama . '</td>';
+                $gbr = $dt->Minuman->gambar;
+                $dresponse .= '<td scope="col">' . '<img src="'.asset("storage/minuman/$gbr").'" alt="Tidak ada gambar"
+                >' . '</td>';
                 $dresponse .= '<td scope="col">' . $dt->Topping->nama . '</td>';
+                $gbr = $dt->Topping->gambar;
+                $dresponse .= '<td scope="col">' . '<img src="'.asset("storage/topping/$gbr").'" alt="Tidak ada gambar"
+                >' . '</td>';
                 $dresponse .= '<td scope="col">' . $dt->jumlah . '</td>';
                 $dresponse .= '<td scope="col" style="text-align: right">' . number_format($dt->subtotal_minuman, 2, ',', '.') . '</td>';
                 $dresponse .= '<td scope="col" style="text-align: right">' . number_format($dt->subtotal_topping, 2, ',', '.') . '</td>';
@@ -552,11 +558,11 @@ class AdminController extends Controller
                 $dresponse .= '</tr>';
             }
             $dresponse .= '<tr>
-            <td colspan="6" style="text-align: right">Total:</td>
+            <td colspan="8" style="text-align: right">Total:</td>
             <td style="text-align: right" id="subtotal">' . number_format($total, 2, ',', '.') . '</td>
         </tr>';
         } else {
-            $dresponse = '<tr><td colspan="7">Tidak ada data</td></tr>';
+            $dresponse = '<tr><td colspan="9">Tidak ada data</td></tr>';
         }
         return response($dresponse);
     }

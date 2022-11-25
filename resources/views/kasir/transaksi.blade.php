@@ -105,7 +105,9 @@
                         <tr>
                             <th scope="col">No</th>
                             <th scope="col">Nama Minuman</th>
+                            <th scope="col">Gambar Minuman</th>
                             <th scope="col">Nama Topping</th>
+                            <th scope="col">Gambar Topping</th>
                             <th scope="col">Jumlah</th>
                             <th scope="col" style="text-align: right">Subtotal Minuman (Rp)</th>
                             <th scope="col" style="text-align: right">Subtotal Topping (Rp)</th>
@@ -118,7 +120,15 @@
                             <tr class="align-middle">
                                 <td scope="col">{{ ($key+1) }}</td>
                                 <td scope="col">{{ $dtrans['nama_minuman'] }}</td>
+                                @php
+                                    $gbr = $dtrans['gbr_minuman']
+                                @endphp
+                                <td scope="col"><img src='{{ asset("storage/minuman/$gbr") }}' alt="Tidak ada gambar"></td>
                                 <td scope="col">{{ $dtrans['nama_topping'] }}</td>
+                                @php
+                                    $gbr = $dtrans['gbr_topping']
+                                @endphp
+                                <td scope="col"><img src='{{ asset("storage/topping/$gbr") }}' alt="Tidak ada gambar"></td>
                                 <td scope="col">{{ $dtrans['jumlah'] }}</td>
                                 <td scope="col" style="text-align: right">{{ number_format($dtrans['subtotal_minuman'],2,',','.') }}</td>
                                 <td scope="col" style="text-align: right">{{ number_format($dtrans['subtotal_topping'],2,',','.') }}</td>
@@ -128,17 +138,17 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="8">Tidak ada data</td>
+                                <td colspan="10">Tidak ada data</td>
                             </tr>
                         @endforelse
                     </tbody>
                         <tr>
-                            <td colspan="6" style="text-align: right">Subtotal:</td>
+                            <td colspan="8" style="text-align: right">Subtotal:</td>
                             <td style="text-align: right" id="subtotal">Rp {{ number_format(Session::get('transaksi.subtotal'),2,',','.') }}</td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td colspan="6" style="text-align: right">Diskon:</td>
+                            <td colspan="8" style="text-align: right">Diskon:</td>
                             <td style="text-align: right">
                                 <select class="form-select" name="diskon" id="diskon">
                                     <option value="-1" {{ Session::get('transaksi.id_diskon') == -1 ? 'selected' : '' }}>
@@ -152,7 +162,7 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td colspan="6" style="text-align:right">Member:</td>
+                            <td colspan="8" style="text-align:right">Member:</td>
                             <td style="text-align: right">
                                 <select class="form-select" name="member" id="member">
                                     <option value="-1" {{ Session::get('transaksi.id_member') == -1 ? 'selected' : '' }}>
@@ -166,17 +176,17 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td colspan="6" style="text-align:right">Potongan:</td>
+                            <td colspan="8" style="text-align:right">Potongan:</td>
                             <td style="text-align: right" id="potongan">Rp {{ number_format(Session::get('transaksi.potongan'),2,',','.') }}</td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td colspan="6" style="text-align: right">Total:</td>
+                            <td colspan="8" style="text-align: right">Total:</td>
                             <td style="text-align: right" id="total">Rp {{ number_format(Session::get('transaksi.total'),2,',','.') }}</td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td colspan="6" style="text-align: right"></td>
+                            <td colspan="8" style="text-align: right"></td>
                             <td style="text-align: right">
                                 <button type="button" id="clear"  class="btn btn-danger">Hapus Semua</button>
                             </td>

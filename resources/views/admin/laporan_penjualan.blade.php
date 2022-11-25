@@ -90,7 +90,9 @@
                         <tr>
                             <th scope="col">No</th>
                             <th scope="col">Nama Minuman</th>
+                            <th scope="col">Gambar Minuman</th>
                             <th scope="col">Nama Topping</th>
+                            <th scope="col">Gambar Topping</th>
                             <th scope="col">Jumlah</th>
                             <th scope="col" style="text-align: right">Subtotal Minuman (Rp)</th>
                             <th scope="col" style="text-align: right">Subtotal Topping (Rp)</th>
@@ -99,7 +101,7 @@
                     </thead>
                     <tbody id="dtrans">
                         <tr>
-                            <td colspan="7">Tidak ada data</td>
+                            <td colspan="9">Tidak ada data</td>
                         </tr>
                     </tbody>
                 </table>

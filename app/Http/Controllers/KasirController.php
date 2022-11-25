@@ -108,9 +108,11 @@ class KasirController extends Controller
         $dtrans = [];
         $dtrans["id_minuman"] = $minuman->id_minuman;
         $dtrans["nama_minuman"] = $minuman->nama;
+        $dtrans["gbr_minuman"] = $minuman->gambar;
         $dtrans["subtotal_minuman"] = $minuman->harga * $request->jumlah;
         $dtrans["id_topping"] = $topping->id_topping;
         $dtrans["nama_topping"] = $topping->nama;
+        $dtrans["gbr_topping"] = $topping->gambar;
         $dtrans["subtotal_topping"] = $topping->harga * $request->jumlah;
         $dtrans["jumlah"] = $request->jumlah;
         $dtrans["subtotal"] = $dtrans["subtotal_minuman"] + $dtrans["subtotal_topping"];
@@ -148,7 +150,13 @@ class KasirController extends Controller
             $transaksi["data"] .= "<tr class='align-middle'>";
             $transaksi["data"] .= "<td scope='col'>" . ($key+1) . "</td>";
             $transaksi["data"] .= "<td scope='col'>" . $dtrans["nama_minuman"] . "</td>";
+            $gbr = $dtrans["gbr_minuman"];
+            $transaksi["data"] .= "<td scope='col'>" . '<img src="'.asset("storage/minuman/$gbr").'" alt="Tidak ada gambar"
+            >' . "</td>";
             $transaksi["data"] .= "<td scope='col'>" . $dtrans["nama_topping"] . "</td>";
+            $gbr = $dtrans["gbr_topping"];
+            $transaksi["data"] .= "<td scope='col'>" . '<img src="'.asset("storage/topping/$gbr").'" alt="Tidak ada gambar"
+            >' . "</td>";
             $transaksi["data"] .= "<td scope='col'>" . $dtrans["jumlah"] . "</td>";
             $transaksi["data"] .= "<td scope='col' style='text-align: right'>".number_format($dtrans["subtotal_minuman"],2,',','.') . "</td>";
             $transaksi["data"] .= "<td scope='col' style='text-align: right'>".number_format($dtrans["subtotal_topping"],2,',','.') . "</td>";
@@ -159,7 +167,7 @@ class KasirController extends Controller
             $transaksi["data"] .= "</tr>";
         }
         if(count($transaksi['dtrans']) == 0){
-            $transaksi["data"] .= "<tr><td colspan='8'>Tidak ada data</td></tr>";
+            $transaksi["data"] .= "<tr><td colspan='10'>Tidak ada data</td></tr>";
         }
         $transaksi["subtotal"] = number_format($transaksi["subtotal"],2,',','.');
         $transaksi["potongan"] = number_format($transaksi["potongan"],2,',','.');
