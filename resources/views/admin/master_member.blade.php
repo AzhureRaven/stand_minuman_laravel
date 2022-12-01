@@ -105,8 +105,8 @@
         @csrf
         <div class="row py-2">
             <div class="col-sm">
-                <label for="">Header</label><br>
-                <input type="text" name="header" class="form-control" value="{{ old('header') }}">
+                <label for="">Subject</label><br>
+                <input type="text" name="subject" class="form-control" value="{{ old('header') }}">
             </div>
         </div>
         <div class="row py-2">

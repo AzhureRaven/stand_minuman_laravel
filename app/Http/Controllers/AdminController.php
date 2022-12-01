@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\PromosiMail;
 use App\Models\Category_Minuman;
 use App\Models\Diskon;
 use App\Models\DTrans;
@@ -12,6 +13,7 @@ use App\Models\Topping;
 use App\Models\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
@@ -472,6 +474,34 @@ class AdminController extends Controller
         $id = $request->id;
         $result = Member::withTrashed()->find($id)->restore();
         return redirect('admin/member')->with("success", "Member Direstore!");
+    }
+
+    public function do_email(Request $request)
+    {
+        $rules = [
+            'subject' => 'required',
+            'body'=> 'required'
+        ];
+        $message = [
+            "subject.required" => ":attribute harus diisi",
+            "body.required"=>":attribute harus diisi",
+        ];
+
+        $request->validate($rules, $message);
+
+        if($request->type == "Preview"){
+            return new PromosiMail("Test Name",$request->body,$request->subject);
+        }
+        else{
+            $member = Member::all();
+            foreach ($member as $m) {
+                Mail::to($m->email)->send(new PromosiMail($m->nama,$request->body,$request->subject));
+                if(env('MAIL_HOST', false) == 'smtp.mailtrap.io'){
+                    sleep(1);
+                }
+            }
+            return redirect('admin/member')->with("success", "Email Berhasil Dikirim!");
+        }
     }
 
 
