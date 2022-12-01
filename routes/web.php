@@ -66,6 +66,7 @@ Route::prefix('/admin')->middleware(['CekPrivilege:2'])->group(function () {
         Route::post('/simpan',[AdminController::class,'simpan_member']);
         Route::get('/delete/{id}',[AdminController::class,'delete_member']);
         Route::get('/restore/{id}',[AdminController::class,'restore_member']);
+        Route::post('/email',[AdminController::class,'do_email']);
     });
 
     Route::prefix('/topping')->group(function () {

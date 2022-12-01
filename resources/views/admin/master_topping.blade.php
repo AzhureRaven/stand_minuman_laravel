@@ -25,7 +25,7 @@
         @endforeach
     @endif
     <div class="container">
-        <form action="/admin/topping/simpan" method="post" enctype="multipart/form-data">
+        <form action="{{url('/admin/topping/simpan')}}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="row py-2">
                 <div class="col-sm">

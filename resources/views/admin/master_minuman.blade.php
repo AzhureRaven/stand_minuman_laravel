@@ -26,7 +26,7 @@
 @endforeach
 @endif
 <div class="container">
-    <form action="/admin/minuman/simpan" method="post" enctype="multipart/form-data">
+    <form action="{{url('/admin/minuman/simpan')}}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="row py-2">
             <div class="col-sm">
@@ -38,21 +38,21 @@
         <div class="row py-2">
             <div class="col-sm">
                 <label for="">Nama Minuman:</label>
-                <input type="text" name="nama" id="" class="form-control" placeholder="input nama minuman" @if ($curMinuman) value="{{ $curMinuman->nama }}" @endif>
+                <input type="text" name="nama" id="" class="form-control" placeholder="Input nama minuman" @if ($curMinuman) value="{{ $curMinuman->nama }}" @endif>
             </div>
             <div class="col-sm"></div>
         </div>
         <div class="row py-2">
             <div class="col-sm">
                 <label for="">Gambar Minuman:</label>
-                <input type="file" name="gambar" id="" class="form-control" placeholder="input gambar Minuman" src="" @if ($curMinuman) value="{{ $curMinuman->gambar }}" @endif>
+                <input type="file" name="gambar" id="" class="form-control" placeholder="Input gambar Minuman" src="" @if ($curMinuman) value="{{ $curMinuman->gambar }}" @endif>
             </div>
             <div class="col-sm"></div>
         </div>
         <div class="row py-2">
             <div class="col-sm">
                 <label for="">Harga Minuman:</label>
-                <input type="number" name="harga" id="" class="form-control" placeholder="input harga minuman" @if ($curMinuman) value="{{ $curMinuman->harga }}" @endif>
+                <input type="number" name="harga" id="" class="form-control" placeholder="Input harga minuman" @if ($curMinuman) value="{{ $curMinuman->harga }}" @endif>
             </div>
             <div class="col-sm"></div>
         </div>

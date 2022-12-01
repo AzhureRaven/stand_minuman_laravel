@@ -25,7 +25,7 @@
 @endforeach
 @endif
 <div class="container">
-    <form action="/admin/member/simpan"  method="post">
+    <form action="{{url('/admin/member/simpan')}}"  method="post">
         @csrf
         <div class="row py-2">
             <div class="col-sm">
@@ -38,14 +38,14 @@
         <div class="row py-2">
             <div class="col-sm">
                 <label for="">Nama Member:</label>
-                <input type="text" name="nama" id="" class="form-control" placeholder="input nama member" @if ($curMember) value="{{ $curMember->nama }}" @endif>
+                <input type="text" name="nama" id="" class="form-control" placeholder="Input nama member" @if ($curMember) value="{{ $curMember->nama }}" @endif>
             </div>
             <div class="col-sm"></div>
         </div>
         <div class="row py-2">
             <div class="col-sm">
                 <label for="">Email Member:</label>
-                <input type="text" name="email" id="" class="form-control" placeholder="input email member" @if ($curMember) value="{{ $curMember->email }}" @endif>
+                <input type="text" name="email" id="" class="form-control" placeholder="Input email member" @if ($curMember) value="{{ $curMember->email }}" @endif>
             </div>
             <div class="col-sm"></div>
         </div>
@@ -97,5 +97,37 @@
             @endforelse
         </tbody>
     </table>
+</div>
+<br>
+<div class="container">
+    <h2>Kirim Email</h2>
+    <form action="{{url('/admin/member/email')}}"  method="post">
+        @csrf
+        <div class="row py-2">
+            <div class="col-sm">
+                <label for="">Header</label><br>
+                <input type="text" name="header" class="form-control" value="{{ old('header') }}">
+            </div>
+        </div>
+        <div class="row py-2">
+            <div class="col-sm">
+                <label for="">Body</label><br>
+                <textarea class="form-control" name="body" rows="10">
+                    {{ old('body') }}
+                </textarea>
+            </div>
+        </div>
+        <div class="row py-2">
+            <div class="col-sm d-flex flex-row-reverse">
+                <input type="submit" name="type" class="btn btn-primary" value="Kirim">
+                <input type="submit" name="type" class="btn btn-primary me-2" value="Preview">
+            </div>
+        </div>
+        <div class="row py-2">
+            <div class="col-sm d-flex flex-row-reverse">
+                <sup>*E-Mail hanya terkirim ke member aktif</sup>
+            </div>
+        </div>
+    </form>
 </div>
 @endsection
