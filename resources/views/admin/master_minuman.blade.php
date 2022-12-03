@@ -111,7 +111,7 @@
                     <td scope="row" style="text-align: right">{{ $m->harga }}</td>
                     <td style="text-align: center">
                         <a href='{{ url("admin/minuman/$m->id_minuman") }}'
-                            class="btn btn-info">Update</a>
+                            class="btn btn-primary">Update</a>
                         @if ($m->deleted_at)
                             <a href="{{ url("admin/minuman/restore/$m->id_minuman") }}"
                                 class="btn btn-success">Restore</a>

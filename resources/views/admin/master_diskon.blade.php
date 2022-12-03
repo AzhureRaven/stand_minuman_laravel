@@ -83,7 +83,7 @@
                         <td scope="row">{{ $m->potongan }}</td>
                         <td style="text-align: center">
                             <a href='{{ url("admin/diskon/$m->id_diskon") }}'
-                                class="btn btn-info">Update</a>
+                                class="btn btn-primary">Update</a>
                             @if ($m->deleted_at)
                                 <a href='{{ url("admin/diskon/restore/$m->id_diskon") }}'
                                     class="btn btn-success">Restore</a>

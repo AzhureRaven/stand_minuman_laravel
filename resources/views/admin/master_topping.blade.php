@@ -95,7 +95,7 @@
                         <td scope="row">{{ $m->harga }}</td>
                         <td style="text-align: center">
                             @if ($m->id_topping != 1)
-                                <a href='{{ url("admin/topping/$m->id_topping") }}' class="btn btn-info">Update</a>
+                                <a href='{{ url("admin/topping/$m->id_topping") }}' class="btn btn-primary">Update</a>
                                 @if ($m->deleted_at)
                                     <a href="{{ url("admin/topping/restore/$m->id_topping") }}"
                                         class="btn btn-success">Restore</a>

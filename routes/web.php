@@ -34,7 +34,7 @@ Route::prefix('/kasir')->middleware(['CekPrivilege:1'])->group(function () {
         Route::post('/do-transaksi', [KasirController::class,'doTransaksi']);
     });
     Route::prefix('/member')->group(function () {
-        Route::get('/member', [KasirController::class,'member']);
+        Route::get('/', [KasirController::class,'member']);
         Route::post('/add-member', [KasirController::class,'addMember']);
     });
 });

@@ -80,7 +80,7 @@
                     <td scope="row" >{{ $m->email }}</td>
                     <td style="text-align: center" >
                         <a href='{{ url("admin/member/$m->id_member") }}'
-                            class="btn btn-info">Update</a>
+                            class="btn btn-primary">Update</a>
                         @if ($m->deleted_at)
                             <a href="{{ url("admin/member/restore/$m->id_member") }}"
                                 class="btn btn-success">Restore</a>

@@ -1,35 +1,20 @@
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
-            aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul class="nav nav-pills me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a href="#" disabled class="nav-link disabled text-white">Kasir: {{Auth::user()->nama}}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url('kasir/transaksi') }}">Transaksi</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url('kasir/member') }}">Register Member</a>
-                </li>
-            </ul>
-            <ul class="nav nav-pills ml-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url('logout') }}">Logout</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark" style="padding:10px">
+    <a class="navbar-brand">Kasir: {{Auth::user()->nama}}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-{{-- <script>
-    $(document).ready(function() {
-        $(".navbar .nav-link").on("click", function(){
-            $(".navbar").find(".active").removeClass("active");
-            $(this).addClass("active");
-        });
-    });
-</script> --}}
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link active" href="{{ url('kasir/transaksi') }}">Transaksi</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="{{ url('kasir/member') }}">Register Member</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-danger" href="{{ url('logout') }}">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>

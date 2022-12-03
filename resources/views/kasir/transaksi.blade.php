@@ -152,17 +152,17 @@
                             <td style="text-align: right">
                                 <select class="form-select" name="diskon" id="diskon">
                                     <option value="-1" {{ Session::get('transaksi.id_diskon') == -1 ? 'selected' : '' }}>
-                                        No Diskon</option>
+                                        No Diskon - 0%</option>
                                     @foreach ($diskon as $d)
                                         <option {{ Session::get('transaksi.id_diskon') == $d->id_diskon ? 'selected' : '' }}
-                                            value="{{ $d->id_diskon }}">{{ $d->nama }}</option>
+                                            value="{{ $d->id_diskon }}">{{ $d->nama.' - '.$d->potongan.'%'  }}</option>
                                     @endforeach
                                 </select>
                             </td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td colspan="8" style="text-align:right">Member:</td>
+                            <td colspan="8" style="text-align:right">Member (Diskon 20%):</td>
                             <td style="text-align: right">
                                 <select class="form-select" name="member" id="member">
                                     <option value="-1" {{ Session::get('transaksi.id_member') == -1 ? 'selected' : '' }}>

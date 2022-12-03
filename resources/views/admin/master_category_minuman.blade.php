@@ -73,7 +73,7 @@
                         <td style="text-align: center">
                             @if ($m->id_category_minuman != 1)
                                 <a href='{{ url("admin/category_minuman/$m->id_category_minuman") }}'
-                                    class="btn btn-info">Update</a>
+                                    class="btn btn-primary">Update</a>
                                 @if ($m->deleted_at)
                                     <a href="{{ url("admin/category_minuman/restore/$m->id_category_minuman") }}"
                                         class="btn btn-success">Restore</a>
